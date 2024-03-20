@@ -14,9 +14,20 @@ class NewsController extends Controller
      */
     public function index()
     {
-        return view('admin.news.index', [
-            'news' => News::latest()->get()
-        ]);
+        if (request()->ajax()) {
+            return datatables()->of(News::latest()->get())
+                ->addColumn('action', function ($data) {
+                    $button = '<button type="button" name="edit" data-id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button .= '&nbsp;&nbsp;';
+                    $button .= '<button type="button" name="delete" data-id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('admin.news.index');
     }
 
     /**
@@ -36,10 +47,8 @@ class NewsController extends Controller
             'title' => 'required',
             'description' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'status' => 'required',
             'publish_date' => 'required',
-            'slug' => 'required',
-            'date' => 'required'
+            'date' => 'required',
         ]);
 
         if ($validated->fails()) {
@@ -48,12 +57,14 @@ class NewsController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
-            $validated['image'] = $imageName;
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images/news'), $imageName);
+            $imageUrl = 'images/news/'.$imageName;
+        } else {
+            $imageUrl = null;
         }
 
-        $news = News::create($validated->validated());
+        $news = News::create(array_merge($validated->validated(), ['image' => $imageUrl]));
 
         return response()->json(['message' => 'News created successfully', 'news' => $news]);
     }
@@ -83,9 +94,8 @@ class NewsController extends Controller
             'title' => 'required',
             'description' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'status' => 'required',
             'publish_date' => 'required',
-            'date' => 'required'
+            'date' => 'required',
         ]);
 
         if ($validated->fails()) {
@@ -94,17 +104,21 @@ class NewsController extends Controller
         //image
         if ($request->hasFile('image')) {
             //delete old image
-            if (file_exists(public_path('images/' . $news->image))) {
-                unlink(public_path('images/' . $news->image));
+            if ($news->image && file_exists(public_path('images/'.$news->image))) {
+                if (file_exists(public_path($news->image))) {
+                    unlink(public_path($news->image));
+                }
             }
-
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
-            $news->image = $imageName;
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images/news'), $imageName);
+            $imageUrl = 'images/news/'.$imageName;
+        } else {
+            $imageUrl = null;
         }
 
         $news->update($validated->validated());
+        $news->update(['image' => $imageUrl]);
 
         return response()->json(['message' => 'News updated successfully', 'news' => $news]);
     }
@@ -114,8 +128,8 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        if (file_exists(public_path('images/' . $news->image))) {
-            unlink(public_path('images/' . $news->image));
+        if (file_exists(public_path('images/'.$news->image))) {
+            unlink(public_path('images/'.$news->image));
         }
 
         $news->delete();

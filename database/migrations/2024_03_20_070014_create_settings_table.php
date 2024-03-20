@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->uuid('id')->primary();
-
+            $table->string('name');
+            $table->json('value');
+            $table->string('type');
             $table->timestamps();
             $table->softDeletes();
         });

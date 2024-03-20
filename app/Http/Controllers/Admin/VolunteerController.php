@@ -14,9 +14,20 @@ class VolunteerController extends Controller
      */
     public function index()
     {
-        return view('admin.volunteers.index', [
-            'volunteers' => Volunteer::latest()->get()
-        ]);
+        if (request()->ajax()) {
+            return datatables()->of(Volunteer::latest()->get())
+                ->addColumn('action', function ($data) {
+                    $button = '<button type="button" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button .= '&nbsp;&nbsp;';
+                    $button .= '<button type="button" name="delete" data-id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('admin.volunteers.index');
     }
 
     /**
@@ -34,7 +45,7 @@ class VolunteerController extends Controller
     {
         $validated = Validator::make($request->all(), [
             'name' => 'required',
-            'required|integer|unique:volunteers,nik'
+            'nik' => 'required|integer|unique:volunteers,nik|digits:16',
         ]);
 
         if ($validated->fails()) {
@@ -69,7 +80,7 @@ class VolunteerController extends Controller
     {
         $validated = Validator::make($request->all(), [
             'name' => 'required',
-            'nik' => 'required|integer|unique:volunteers,nik,' . $volunteer->id,
+            'nik' => 'required|integer|digits:16|unique:volunteers,nik,'.$volunteer->id,
         ]);
 
         if ($validated->fails()) {

@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('detail_data_recaps', function (Blueprint $table) {
             $table->uuid('id')->primary();
-
+            $table->foreignUuid('data_recap_id')->constrained('data_recaps');
+            $table->foreignUuid('candidate_id')->constrained('candidates');
+            $table->integer('vote');
             $table->timestamps();
             $table->softDeletes();
         });

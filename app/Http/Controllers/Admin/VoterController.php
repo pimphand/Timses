@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TestEmail;
 use App\Models\Voter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class VoterController extends Controller
@@ -14,9 +16,21 @@ class VoterController extends Controller
      */
     public function index()
     {
-        return view('admin.voters.index', [
-            'voters' => Voter::latest()->get()
-        ]);
+        //dataTables yajra
+        if (request()->ajax()) {
+            return datatables()->of(Voter::with(['village.district'])->latest()->get())
+                ->addColumn('action', function ($data) {
+                    $button = '<button type="button" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button .= '&nbsp;&nbsp;';
+                    $button .= '<button type="button" name="delete" data-id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('admin.voters.index');
     }
 
     /**
@@ -32,32 +46,36 @@ class VoterController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'nik' => 'required|integer|unique:voters,nik',
-            'kk' => 'nullable|integer|unique:voters,kk',
+            'nik' => 'required|integer|unique:voters,nik|digits:16',
+            'kk' => 'nullable|integer|unique:voters,kk|digits:16',
             'tps' => 'nullable',
             'address' => 'nullable',
-            'province' => 'required',
             'city' => 'required',
             'subdistrict' => 'required',
-            'village' => 'required',
+            'village_id' => 'required',
             'phone' => 'nullable',
             'identity_card' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if ($validated->fails()) {
-            return response()->json(['errors' => $validated->errors()], 422);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
         if ($request->hasFile('identity_card')) {
             $image = $request->file('identity_card');
-            $imageName = time() . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
-            $validated['identity_card'] = $imageName;
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(storage_path('images/voter'), $imageName);
+            $imageUrl = 'images/voter/'.$imageName;
+        } else {
+            $imageUrl = null;
         }
 
-        $voter = Voter::create($validated->validated());
+        $voter = Voter::create(array_merge(
+            $validator->validated(),
+            ['identity_card' => $imageUrl]
+        ));
 
         return response()->json(['message' => 'Voter created successfully', 'voter' => $voter]);
     }
@@ -75,7 +93,8 @@ class VoterController extends Controller
      */
     public function edit(Voter $voter)
     {
-        //
+        //send email
+
     }
 
     /**
@@ -85,14 +104,14 @@ class VoterController extends Controller
     {
         $validated = Validator::make($request->all(), [
             'name' => 'required',
-            'nik' => 'required|integer|unique:voters,nik,' . $voter->id,
-            'kk' => 'nullable|integer|unique:voters,kk,' . $voter->id,
+            'nik' => 'required|integer|digits:16|unique:voters,nik,'.$voter->id,
+            'kk' => 'nullable|integer|digits:16|unique:voters,kk,'.$voter->id,
             'tps' => 'nullable',
             'address' => 'nullable',
             'province' => 'required',
             'city' => 'required',
             'subdistrict' => 'required',
-            'village' => 'required',
+            'village_id' => 'required',
             'phone' => 'nullable',
             'identity_card' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -102,18 +121,19 @@ class VoterController extends Controller
         }
 
         if ($request->hasFile('identity_card')) {
-            // Delete old image
-            if (file_exists(public_path('images/' . $voter->identity_card))) {
-                unlink(public_path('images/' . $voter->identity_card));
+            if (file_exists(storage_path($voter->identity_card))) {
+                unlink(storage_path($voter->identity_card));
             }
-
             $image = $request->file('identity_card');
-            $imageName = time() . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
-            $validated['identity_card'] = $imageName;
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(storage_path('images/voter'), $imageName);
+            $imageUrl = 'images/voter/'.$imageName;
+        } else {
+            $imageUrl = $voter->identity_card;
         }
 
         $voter->update($validated->validated());
+        $voter->update(['identity_card' => $imageUrl]);
 
         return response()->json(['message' => 'Voter updated successfully', 'voter' => $voter]);
     }
@@ -123,10 +143,13 @@ class VoterController extends Controller
      */
     public function destroy(Voter $voter)
     {
-        if (file_exists(public_path('images/' . $voter->identity_card))) {
-            unlink(public_path('images/' . $voter->identity_card));
-        }
-
         $voter->delete();
+
+        return response()->json(['message' => 'Voter deleted successfully']);
+    }
+
+    public function test()
+    {
+        Mail::to('faisaldwiki69@gmail.com')->send(new TestEmail());
     }
 }

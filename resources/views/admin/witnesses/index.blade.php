@@ -8,9 +8,9 @@
 
                     <div class="d-flex justify-content-between mb-3">
                         <h4 class="card-title
-                        ">Pemilih</h4>
+                        ">Saksi</h4>
                         <button class="btn btn-primary" id="create" data-bs-toggle="modal">
-                            Tambah Pemilih
+                            Tambah Saksi
                         </button>
                     </div>
                     <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
@@ -18,12 +18,10 @@
                         <tr>
                             <th>Id</th>
                             <th>Nama</th>
-                            <th>Nik</th>
+                            <th>Username</th>
+                            <th>Email</th>
                             <th>TPS</th>
-                            <th>Kecamatan</th>
-                            <th>Kelurahan/Desa</th>
                             <th>No HP</th>
-                            <th>KTP</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -41,7 +39,7 @@
                         <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div> <!-- end modal header -->
-                    <form action="{{route('volunteers.store')}}" enctype="multipart/form-data">
+                    <form action="{{route('witnesses.store')}}" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="row g-2">
                                 <div class="mb-2 col-md-6">
@@ -50,48 +48,37 @@
                                            placeholder="Masukan nama lengkap" required>
                                 </div>
                                 <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">NIK</label>
-                                    <input type="text" class="form-control" id="nik" name="nik"
-                                           oninput="validateNumber(this)" pattern="\d{1,16}" required
-                                           placeholder="Masukkan NIK">
+                                    <label for="inputPassword4" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username"
+                                           required
+                                           placeholder="Masukkan Username">
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    <label for="inputPassword4" class="form-label">email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                           required
+                                           placeholder="Masukkan Username">
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    <label for="inputPassword4" class="form-label">No Hp</label>
+                                    <input type="text" class="form-control" id="phone" name="phone"
+                                           required
+                                           placeholder="Masukkan Nomor Hp">
                                 </div>
                                 <div class="mb-2 col-md-6">
                                     <label for="inputPassword4" class="form-label">TPS</label>
-                                    <input type="text" class="form-control" id="tps" name="tps" readonly
-                                           placeholder="masukan TPS">
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Nomor HP</label>
-                                    <input type="text" class="form-control" id="phone" name="phone"
-                                           placeholder="masukan nomor telepon">
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Provinsi</label>
-                                    <input type="text" class="form-control" id="province" name="province" readonly
-                                           placeholder="TPS" value="Jawa Barat">
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Kota/Kabupaten</label>
-                                    <input type="text" class="form-control" id="city" name="city" readonly
-                                           placeholder="TPS" value="Kabupaten Sukabumi">
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Kecamatan</label>
-                                    <select type="text" class="form-control" id="subdistrict" name="subdistrict">
-                                        <option value="" disabled>Pilih Kecamatan</option>
+                                    <select class="form-control" id="tps_id" name="tps_id"
+
+                                            placeholder="Masukkan Nomor Hp">
+                                        <option value="">Pilih TPS</option>
                                     </select>
                                 </div>
                                 <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Kelurahan/Desa</label>
-                                    <select type="text" class="form-control" id="village" name="village_id">
-                                        <option value="" disabled>Pilih Kelurahan/Desa</option>
-                                    </select>
+                                    <label for="inputPassword4" class="form-label">Password</label>
+                                    <input type="text" class="form-control" id="password" name="password"
+                                           placeholder="Masukkan Password">
                                 </div>
-                                <div class="mb-2 col-md-12">
-                                    <label for="inputPassword4" class="form-label">KTP</label>
-                                    <input type="file" class="form-control" id="identity_card" name="identity_card"
-                                           placeholder="TPS" value="Kabupaten Sukabumi">
-                                </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -111,7 +98,7 @@
             let dataTable = $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('voters.index') }}',
+                ajax: '{{ route('witnesses.index') }}',
                 columns: [
                     {
                         data: 'created_at', name: 'created_at', render: function (data, type, row, meta) {
@@ -119,26 +106,20 @@
                         },
                     },
                     {data: 'name', name: 'name'},
-                    {data: 'nik', name: 'nik'},
+                    {data: 'username', name: 'username'},
                     {
-                        data: 'tps', name: 'tps', render: function (data) {
+                        data: 'email', name: 'email', render: function (data) {
                             return data ?? '-';
                         }
                     },
-                    {data: 'subdistrict.name', name: 'subdistrict.name'},
-                    {data: 'village.name', name: 'village.name'},
+                    {
+                        data: 'tps.name', name: 'tps.name', render: function (data) {
+                            return data ?? '-';
+                        }
+                    },
                     {
                         data: 'phone', name: 'phone', render: function (data) {
                             return data ?? '-';
-                        }
-                    },
-                    {
-                        data: 'identity_card',
-                        identity_card: 'image',
-                        orderable: false,
-                        searchable: false,
-                        render: function (data) {
-                            return `<img src="{{asset('')}}${data}" class="img-thumbnail" width="100" height="100">`;
                         }
                     },
                     {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'},
@@ -157,7 +138,7 @@
                     confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let url = "{{ route('voters.destroy', ':id') }}";
+                        let url = "{{ route('witnesses.destroy', ':id') }}";
                         url = url.replace(':id', id);
                         formAjax({}, url, 'delete',).then(function (response) {
                             Swal.fire({
@@ -181,13 +162,16 @@
                 let data = dataTable.row($(this).parents('tr')).data();
                 //set data to form
                 $('#staticBackdropLabel').text('Edit Pemilih');
-                $('form').attr('action', `voters/${data.id}`);
-                $('#name').val(data.name);
-                $('#nik').val(data.nik);
-                $('#tps').val(data.tps);
-                $('#phone').val(data.phone);
-                $('#subdistrict').append(`<option value="${data.subdistrict.code}" selected>${data.subdistrict.name}</option>`);
-                $('#village').append(`<option value="${data.village.id}" selected>${data.village.name}</option>`);
+                $('form').attr('action', `witnesses/${data.id}`);
+                let keys = Object.keys(data);
+                keys.forEach(function (key) {
+                    if (key === 'image') {
+                        $(`#${key}`).attr('src', '{{asset('')}}' + data[key]);
+                    } else {
+                        $(`#${key}`).val(data[key]);
+                    }
+                });
+
                 $('#save').text('Update');
                 //add method put
                 $('form').append('<input type="hidden" name="_method" value="put">');
@@ -199,7 +183,7 @@
 
             $(document).on('click', '#create', function () {
                 $('#staticBackdropLabel').text('Tambah Pemilih');
-                $('form').attr('action', `voters`);
+                $('form').attr('action', `witnesses`);
                 $('#name').val('');
                 $('#nik').val('');
                 $('#save').text('Simpan');

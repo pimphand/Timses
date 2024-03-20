@@ -17,9 +17,10 @@ class CandidateController extends Controller
         if (request()->ajax()) {
             return datatables()->of(Candidate::latest()->get())
                 ->addColumn('action', function ($data) {
-                    $button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button = '<button type="button" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
+                    $button .= '<button type="button" name="delete" id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+
                     return $button;
                 })
                 ->rawColumns(['action'])
@@ -63,14 +64,14 @@ class CandidateController extends Controller
 
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
-            $imageName = time() . '.' . $image->extension();
+            $imageName = time().'.'.$image->extension();
             $image->move(public_path('images'), $imageName);
             $validated['photo'] = $imageName;
         }
 
         if ($request->hasFile('vice_photo')) {
             $image = $request->file('vice_photo');
-            $imageName = time() . '.' . $image->extension();
+            $imageName = time().'.'.$image->extension();
             $image->move(public_path('images'), $imageName);
             $validated['vice_photo'] = $imageName;
         }
@@ -122,14 +123,14 @@ class CandidateController extends Controller
 
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
-            $imageName = time() . '.' . $image->extension();
+            $imageName = time().'.'.$image->extension();
             $image->move(public_path('images'), $imageName);
             $validated['photo'] = $imageName;
         }
 
         if ($request->hasFile('vice_photo')) {
             $image = $request->file('vice_photo');
-            $imageName = time() . '.' . $image->extension();
+            $imageName = time().'.'.$image->extension();
             $image->move(public_path('images'), $imageName);
             $validated['vice_photo'] = $imageName;
         }
@@ -144,12 +145,12 @@ class CandidateController extends Controller
      */
     public function destroy(Candidate $candidate)
     {
-        if (file_exists(public_path('images/' . $candidate->photo))) {
-            unlink(public_path('images/' . $candidate->photo));
+        if (file_exists(public_path('images/'.$candidate->photo))) {
+            unlink(public_path('images/'.$candidate->photo));
         }
 
-        if (file_exists(public_path('images/' . $candidate->vice_photo))) {
-            unlink(public_path('images/' . $candidate->vice_photo));
+        if (file_exists(public_path('images/'.$candidate->vice_photo))) {
+            unlink(public_path('images/'.$candidate->vice_photo));
         }
 
         $candidate->delete();

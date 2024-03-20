@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('volunteers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->integer('nik')->unique();
+            $table->bigInteger('nik')->unique();
             $table->timestamps();
             $table->softDeletes();
         });

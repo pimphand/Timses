@@ -12,4 +12,9 @@ class DetailDataRecap extends Model
     use HasFactory,HasUuids,SoftDeletes;
 
     protected $guarded = [];
+
+    public function candidate()
+    {
+        return $this->belongsTo(Candidate::class);
+    }
 }
