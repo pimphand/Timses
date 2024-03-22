@@ -31,7 +31,7 @@ class FrontendController extends Controller
             'subdistrict' => 'required|integer|exists:indonesia_districts,id',
             'village_id' => 'required|integer|exists:indonesia_villages,id',
             'phone' => 'nullable|numeric',
-            'identity_card' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'identity_card' => 'required|mimes:JPEG,jpeg,png,jpg,gif,svg',
         ], [
             'nik.unique' => 'NIK sudah terdaftar',
             'nik.digits' => 'NIK harus 16 digit',
@@ -40,6 +40,7 @@ class FrontendController extends Controller
             'identity_card.required' => 'KTP harus diisi',
             'identity_card.mimes' => 'KTP harus berupa file gambar',
             'identity_card.max' => 'KTP maksimal 2MB',
+
             'subdistrict.required' => 'Kecamatan harus diisi',
             'village_id.required' => 'Kelurahan/Desa harus diisi',
             'name.required' => 'Nama harus diisi',
