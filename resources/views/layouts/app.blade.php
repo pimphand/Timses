@@ -26,6 +26,18 @@
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="{{asset('frontend')}}/images/favicon.png">
     <!-- Favicon Icon -->
+    <style>
+        #_nav_relawan {
+            display: none; /* Awalnya sembunyikan */
+        }
+
+        /* Media Query untuk layar dengan lebar maksimum 600px (misalnya, layar hp) */
+        @media only screen and (max-width: 600px) {
+            #_nav_relawan {
+                display: block; /* Tampilkan ketika layar hp */
+            }
+        }
+    </style>
 </head>
 <body>
 <!-- Preloading -->
@@ -63,7 +75,7 @@
                                 <a class="_to_home" href="#agenda">Agenda</a>
                             </li>
                             <li class="menu-item-has-children" id="_nav_relawan">
-                                <a href="{{route('register')}}">Daftar Relawan</a>
+                                <a href="/register">Daftar Relawan</a>
                             </li>
                         </ul>
                     </nav>
@@ -164,6 +176,10 @@
             });
         });
     }
+
+    $('#_nav_relawan').click(function () {
+        window.location.href = '/daftar-relawan';
+    });
 </script>
 @stack('js')
 </body>
