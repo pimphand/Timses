@@ -343,7 +343,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <div class="subTitle">Berita</div>
+                    <div class="subTitle">Artikel</div>
                 </div>
             </div>
             <div class="row" id="_news">
@@ -362,6 +362,27 @@
 @push('js')
     <script>
         formAjax({}, "{{route('data')}}", 'get',).then(function (response) {
+                //news
+                response.news.forEach(function (item) {
+                    let url = "{{route('news-detail', ':id')}}";
+                    url = url.replace(':id', item.slug);
+                    $('#_news').append(`
+                    <div class="col-lg-4 col-md-6">
+                    <div class="folioItem02">
+                        <img src="{{asset('')}}${item.image}" alt="">
+                        <div class="folioCon">
+                            <h3>${item.title}</h3>
+                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                ${truncateText(item.description, 50)}
+                            </p>
+                            <div class="flmore">
+                                <a href="${url}">Baca Selengkapnya <i class="dgita-arrow"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    `)
+                })
                 $('#jargon').html(response.data.data_1.jargon)
                 //let program_kerja = ` <li><i class="dgita-check"></i>Program kerja yang menonjol</li>`
                 response.data.data_1.program_kerja.forEach(function (item) {
@@ -403,27 +424,6 @@
                     <div class="single_skill" data-parcent="">
                        <p>${item}</p>
                     </div>`)
-                })
-                //news
-                response.news.forEach(function (item) {
-                    let url = "{{route('news-detail', ':id')}}";
-                    url = url.replace(':id', item.slug);
-                    $('#_news').append(`
-                    <div class="col-lg-4 col-md-6">
-                    <div class="folioItem02">
-                        <img src="{{asset('')}}${item.image}" alt="">
-                        <div class="folioCon">
-                            <h3>${item.title}</h3>
-                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                ${truncateText(item.description, 50)}
-                            </p>
-                            <div class="flmore">
-                                <a href="${url}">Baca Selengkapnya <i class="dgita-arrow"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    `)
                 })
             }
         ).catch(function (error) {
