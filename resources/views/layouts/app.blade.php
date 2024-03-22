@@ -26,6 +26,7 @@
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="{{asset('frontend')}}/images/favicon.png">
     <!-- Favicon Icon -->
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
     <style>
         #_nav_relawan {
             display: none; /* Awalnya sembunyikan */
@@ -89,10 +90,6 @@
 </header>
 <!-- Header End -->
 @yield('content')
-<br>
-<br>
-<br>
-<br>
 
 <!-- Footer Section -->
 <footer class="footer_01 white" id="daftarrelawan">

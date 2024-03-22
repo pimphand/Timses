@@ -210,7 +210,7 @@
                         }
                     },
                     {
-                        data: 'phone', name: 'phone', render: function (data) {
+                        data: 'token', name: 'token', render: function (data) {
                             return data ?? '-';
                         }
                     },

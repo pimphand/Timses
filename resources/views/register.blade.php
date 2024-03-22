@@ -1,63 +1,89 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        .custom-file {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-    <!-- Blog Start -->
-    <section class="contactPage mt-5">
-        <div class="SecLayerimg move_anim">
-            <img src="assets/images/bg/s34.png" alt="">
-        </div>
+        .custom-file input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .custom-file-label {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            pointer-events: none; /* Disable pointer events to prevent interaction */
+        }
+    </style>
+
+
+    <section class="contactPage">
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="conFormWrapper">
                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="contactFormTitle">
+                                    <h2>Daftar Relawan</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="contactFormTitle">
+                                    <img src="">
+                                </div>
+                            </div>
                             <div class="col-md-12">
-                                <h2>Daftar Menjadi Relawan</h2>
                                 <div class="contact_form">
-                                    <form action="{{route('register')}}" method="post" class="row">
+                                    <form action="#" method="post" class="row">
                                         <div class="col-md-6">
-                                            <input class="form-control" type="text" name="name" id="name"
+                                            <input class="required" type="text" name="name" id="name"
                                                    placeholder="Name">
                                             <span class="text-danger " id="error-name"></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input class="form-control" type="text" name="nik" id="nik"
+                                            <input class="required" type="text" name="nik" id="nik"
                                                    oninput="validateNumber(this)" pattern="\d{1,16}"
                                                    placeholder="Masukan Nomor Induk KTP">
                                             <div class="text-danger" id="error-nik"></div>
                                         </div>
                                         <div class="col-md-6 mt-3">
-                                            <select type="number" name="subdistrict" class="form-control"
+                                            <select type="number" name="subdistrict" class="required form-control"
                                                     placeholder="Phone"
                                                     id="subdistrict">
                                             </select>
                                             <div class="text-danger" id="error-subdistrict"></div>
-
                                         </div>
                                         <div class="col-md-6 mt-3">
-                                            <select type="number" name="village_id" class="form-control"
+                                            <select type="number" name="village_id" class="required form-control"
                                                     placeholder="Phone" disabled
                                                     id="village_id">
                                                 <option value="" disabled selected>Pilih Kelurahan/Desa</option>
                                             </select>
                                             <div class="text-danger" id="error-village_id"></div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <label class="custom-file">
+                                                <input type="file" id="identity_card" name="identity_card">
+                                                <span class="custom-file-label">Upload KTP</span>
+                                            </label>
+                                            <img id="show_identity_card" width="50%">
+                                        </div>
 
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <input class="required" type="text" name="phone" id="phone"
-                                                   oninput="validateNumber(this)" pattern="\d{1,16}"
-                                                   placeholder="Masukan Nomor HP">
-                                            <div class="text-danger" id="error-phone"></div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <input class="required" type="file" name="identity_card" id="identity_card"
-                                                   accept="image/*"
-                                                   placeholder="Name">
-                                            <div class="text-danger" id="error-identity_card"></div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <img src="" id="show_identity_card" width="100%">
-                                        </div>
+
                                         <div class="col-md-12 mt-3">
                                             <button type="submit" class="dgBtn">Kirim</button>
                                             <div class="con_message"></div>
@@ -65,34 +91,17 @@
                                     </form>
                                 </div>
                             </div>
-                            {{--                            <div class="col-md-5">--}}
-                            {{--                                <div class="contactInfo">--}}
-                            {{--                                    <img src="{{asset('frontend')}}/images/c1.png" alt=""/>--}}
-                            {{--                                    <h4>Phone</h4>--}}
-                            {{--                                    <p>--}}
-                            {{--                                        Call : +8801682648101<br>--}}
-                            {{--                                        Fax : 02 9292162--}}
-                            {{--                                    </p>--}}
-                            {{--                                </div>--}}
-                            {{--                                <div class="contactInfo">--}}
-                            {{--                                    <img src="{{asset('frontend')}}/images/c2.png" alt=""/>--}}
-                            {{--                                    <h4>Address</h4>--}}
-                            {{--                                    <p>--}}
-                            {{--                                        Boat House, 2/21 City Road--}}
-                            {{--                                        Hoxton, N1 6NG, UK--}}
-                            {{--                                    </p>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Blog End -->
 @endsection
 
 @push('js')
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function validateNumber(input) {
@@ -178,5 +187,6 @@
             //href to /
             window.location.href = "/" + $(this).attr('href');
         });
+
     </script>
 @endpush
