@@ -153,6 +153,7 @@ class VoterController extends Controller
     {
         $ambildata = Voter::all();
 
+        //        return view('admin.voters.pdf', compact('ambildata'));
         $pdf = PDF::loadView('admin.voters.pdf', compact('ambildata'));
 
         return $pdf->download('saksi.pdf');
