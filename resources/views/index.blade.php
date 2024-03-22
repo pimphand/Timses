@@ -220,9 +220,7 @@
                             <br>
                             <p class="biodata" id="biodata_wakil" style="width: 40%">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.Lorem ipsum dolor
-                                sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                                dolore magna aliqua. Ut enim ad minim veniam.
+                                incididunt ut labore et dolore magna aliqua.
                             </p>
 
                             <div id="prestasi_wakil">
@@ -236,7 +234,7 @@
                              data-hoffset="['0', '0', '0', '0']"
 
                              data-y="['middle']"
-
+                             data-voffset="['-180','-150','-150','-120']"
                              data-fontsize="['20','20','20','20']"
                              data-fontweight="400"
                              data-lineheight="['26','26','26','26']"

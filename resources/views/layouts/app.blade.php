@@ -45,7 +45,7 @@
             <div class="col-lg-12">
                 <div class="navBar01">
                     <div class="logo">
-                        <h4>{{env('APP_NAME')}}</h4>
+                        <a href="#home"><img src="{{asset('images')}}/frontend/logo.png" alt="Logo"></a>
                     </div>
                     <a href="javascript:void(0)" class="menu_btn"><i class="twi-bars2"></i></a>
                     <nav class="mainMenu">
@@ -61,6 +61,9 @@
                             </li>
                             <li class="menu-item-has-children">
                                 <a class="_to_home" href="#agenda">Agenda</a>
+                            </li>
+                            <li class="menu-item-has-children" id="_nav_relawan">
+                                <a href="{{route('register')}}">Daftar Relawan</a>
                             </li>
                         </ul>
                     </nav>
