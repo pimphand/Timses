@@ -163,9 +163,9 @@ class VoterController extends Controller
         // return view('admin.voters.pdf', compact('ambildata'));
         $pdf = Pdf::loadView('admin.voters.pdf', compact('ambildata'));
 
-        // if (is_link($destinationFolder)) {
-        //     unlink($destinationFolder);
-        // }
+        if (is_link($destinationFolder)) {
+            unlink($destinationFolder);
+        }
 
         return $pdf->download('saksi.pdf');
     }
