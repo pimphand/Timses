@@ -65,7 +65,7 @@
                     <td>{{ $no }}</td>
                     <td>{{ $report->name }}</td>
                     <td>
-                        <img src="{{route('file.show')}}?images={{$report->identity_card}}" width="150px"
+                        <img src="{{storage_path($report->identity_card)}}}" width="150px"
                              height="110"/> <br>
                         No KTP: {{ $report->nik }}
                     </td>
