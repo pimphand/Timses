@@ -66,7 +66,7 @@
                     <td>{{ $report->name }}</td>
                     <td>
                         <img
-                            src="data:image/jpeg;base64,'{{base64_encode(file_get_contents(route('file.show').'?images='.$report->identity_card)}}'"
+                            src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(route('file.show', ['images' => $report->identity_card]))) }}"
                             width="150px"
                             height="110"/> <br>
                         No KTP: {{ $report->nik }}
