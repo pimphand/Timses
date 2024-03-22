@@ -251,7 +251,7 @@
             //option select district
             let option = '';
             response.forEach(function (data) {
-                option += `<option value="${data.code}">${data.name}</option>`;
+                option += `<option value="${data.id}">${data.name}</option>`;
             });
             $('#subdistrict').append(option);
         }).catch(function (error) {

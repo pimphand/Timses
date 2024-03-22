@@ -11,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function ($table) {
-            $table->char('tps_id', 24)->nullable();
+            $table->uuid('tps_id')->nullable();
             $table->char('phone', 15)->nullable();
             $table->foreign('tps_id')->references('id')->on('tps')->onUpdate('cascade')->onDelete('restrict');
         });

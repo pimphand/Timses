@@ -135,32 +135,34 @@ class WitnessController extends Controller
     {
         $tps = Tps::where('district_id', $request->district_id)->get();
         $users = [];
+        $counter = 0; // Initialize counter variable
+
         foreach ($tps as $tp) {
             $token = Str::random(5);
             $users[] = User::firstOrCreate([
                 'tps_id' => $tp->id,
             ], [
                 'name' => 'Saksi '.$tp->name,
-                'email' => rand(1000, 10000).'saksi_'.Str::replace(' ', '_', $tp->name).'@gmail.com', // change this to your email domain (optional
+                'email' => rand(1000, 10000).'saksi_'.Str::replace(' ', '_', $tp->name).'@gmail.com', // change this to your email domain (optional)
                 'password' => bcrypt($token),
                 'username' => Str::random(5).rand(1, 1000),
                 'role' => 'saksi',
                 'phone' => null,
-                'token' => encrypt($token),
+                'token' => $token,
                 'district_id' => $tp->district_id,
                 'village_id' => $tp->village_id,
             ]);
+
+            // Increment counter
+            $counter++;
+
+            // Check if 15 users have been created
+            if ($counter % 30 === 0) {
+                sleep(1); // Sleep for 1 second
+            }
         }
 
-        $excelFileName = 'saksi.xlsx';
-        $excelFilePath = 'public/excel/'.$excelFileName;
-
-        Excel::store(new Saksi(collect($users)), $excelFilePath);
-
-        // Generate URL for the saved Excel file
-        $excelFileUrl = asset('storage/excel/'.$excelFileName);
-
-        return $excelFileUrl;
+        return response()->json(['message' => 'Witness generated successfully']);
     }
 
     public function export(Request $request)

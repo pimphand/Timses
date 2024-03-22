@@ -22,7 +22,7 @@ class Saksi implements FromCollection, WithHeadings
 
             return [
                 'Email' => $user->email,
-                'Password' => decrypt($user->token),
+                'Password' => $user->token,
                 'TPS' => $tps ? $tps->name : '',
                 'Kecamatan' => $tps ? $tps->district->name : '',
                 'Kelurahan' => $tps ? $tps->village->name : '',
