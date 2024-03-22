@@ -56,7 +56,7 @@ class SettingController extends Controller
 
                 $data2['photo_1'] = 'images/paslon/'.$imageName;
             } else {
-                $data2['photo_1'] = $data2['old_photo_1'];
+                $data2['photo_1'] = $data2['old_photo_1'] ?? null;
             }
             if ($request->hasFile('data2.photo_2')) {
                 $image = $request->file('data2.photo_2');
@@ -65,7 +65,7 @@ class SettingController extends Controller
 
                 $data2['photo_2'] = 'images/paslon/'.$imageName;
             } else {
-                $data2['photo_2'] = $data2['old_photo_2'];
+                $data2['photo_2'] = $data2['old_photo_2'] ?? null;
             }
 
             Setting::updateOrCreate(['name' => 'data_2'], ['value' => $data2]);
