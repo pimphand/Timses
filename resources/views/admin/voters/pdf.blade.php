@@ -27,7 +27,7 @@
 
             <td style="width: 35px;">
                 <img style="width: 50px;height: 50px"
-                     src="https://snippets-code.com/uploads/logo/logo_5ba4f5f44804c.png" alt="" class="img-circle"/>
+                     src="{{asset('images')}}/frontend/logo.png" alt="" class="img-circle"/>
             </td>
             <td>
                 <p style="margin-left: 10px; font: 14px lighter;">Aplikasi Manajemen Data Kampanye</p>
@@ -42,7 +42,7 @@
     <div style="width: 100%; background-color: rgb(224, 224, 224); padding: 1px 0px 5px 15px;">
         <table style="width: 100%;">
             <tr style="font-size: 20px;  text-align: center">
-                <td style="padding: 10px;">Daftar Pemilih</td>
+                <td style="padding: 10px;">Daftar Relawan</td>
             </tr>
         </table>
     </div>
@@ -52,7 +52,6 @@
             <td style="border: 1px solid black;">No</td>
             <td style="border: 1px solid black;">Nama</td>
             <td style="border: 1px solid black;">Foto KTP</td>
-            <td style="border: 1px solid black;">HP</td>
             <td style="border: 1px solid black;">Alamat</td>
 
         </tr>
@@ -64,15 +63,15 @@
             @foreach ($ambildata as $report)
                 <tr class="table_tr2">
                     <td>{{ $no }}</td>
-                    <td>{{ $report->namadpt }}</td>
+                    <td>{{ $report->name }}</td>
                     <td>
-                        <img src="{{ asset('assets/ktppemilihupload/' . $report->ktppemilih) }}" width="150px"
-                             height="110"/>
+                        <img src="{{route('file.show')}}?images={{$report->identity_card}}" width="150px"
+                             height="110"/> <br>
+                        No KTP: {{ $report->nik }}
                     </td>
-                    <td>{{ $report->tlppemilih }}</td>
                     <td>
-                        Kel: {{ $report->namakelurahan }} - Kec: {{ $report->namakecamatan }} -
-                        Kab: {{ $report->namakabupaten }} - Prov: {{ $report->namaprovinsi }}
+                        Kel: {{ $report->village->name }} - Kec: {{ $report->village->district->name }} -
+                        Kab: SUKABUMI - Prov: JAWA BARAT
                     </td>
                 </tr>
                 @php

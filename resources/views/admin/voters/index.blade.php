@@ -5,7 +5,19 @@
         <div class="row g-4">
             <div class="col-12">
                 <div class="mb-4">
-
+                    <div class="row">
+                        <div class="mb-2 col-md-8">
+                            <div class="input-group">
+                                <select class="form-control subdistrict">
+                                    <option value="" disabled>Pilih Kecamatan</option>
+                                </select>
+                                <select class="form-control village">
+                                    <option value="" disabled>Pilih Kecamatan</option>
+                                </select>
+                                <button class="btn btn-info" id="export">Export PDF</button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-between mb-3">
                         <h4 class="card-title
                         ">Relawan</h4>
@@ -73,17 +85,19 @@
                                 <div class="mb-2 col-md-6">
                                     <label for="inputPassword4" class="form-label">Kota/Kabupaten</label>
                                     <input type="text" class="form-control" id="city" name="city" readonly
-                                           placeholder="TPS" value="Kabupaten Sukabumi">
+                                           placeholder="TPS"
+                                           value="Kabupaten Sukabumi">
                                 </div>
                                 <div class="mb-2 col-md-6">
                                     <label for="inputPassword4" class="form-label">Kecamatan</label>
-                                    <select type="text" class="form-control" id="subdistrict" name="subdistrict">
+                                    <select type="text" class="form-control subdistrict" id="subdistrict"
+                                            name="subdistrict">
                                         <option value="" disabled>Pilih Kecamatan</option>
                                     </select>
                                 </div>
                                 <div class="mb-2 col-md-6">
                                     <label for="inputPassword4" class="form-label">Kelurahan/Desa</label>
-                                    <select type="text" class="form-control" id="village" name="village_id">
+                                    <select type="text" class="form-control village" id="village" name="village_id">
                                         <option value="" disabled>Pilih Kelurahan/Desa</option>
                                     </select>
                                 </div>
@@ -247,9 +261,9 @@
                 // Do whatever you need to do with the district data here
                 let option = '';
                 district.forEach(function (data) {
-                    option += `<option value="${data.code}">${data.name}</option>`;
+                    option += `<option value="${data.id}">${data.name}</option>`;
                 });
-                $('#subdistrict').append(option);
+                $('.subdistrict').append(option);
             } else {
                 // Data doesn't exist in local storage, fetch it using AJAX
                 formAjax({}, "{{route('get.district')}}?city_id=3202", 'get',).then(function (response) {
@@ -258,9 +272,9 @@
                     //option select district
                     let option = '';
                     response.forEach(function (data) {
-                        option += `<option value="${data.code}">${data.name}</option>`;
+                        option += `<option value="${data.id}">${data.name}</option>`;
                     });
-                    $('#subdistrict').append(option);
+                    $('.subdistrict').append(option);
                 }).catch(function (error) {
                     // Handle errors if any
                     console.error('Error fetching data:', error);
@@ -268,20 +282,24 @@
             }
         }
 
-        $('#subdistrict').change(function () {
+        $('.subdistrict').change(function () {
             let district_id = $(this).val();
-            $('#village').html('<option value="" disabled>Pilih Kelurahan/Desa</option>');
+            $('.village').html('<option value="" disabled>Pilih Kelurahan/Desa</option>');
             formAjax({}, "{{route('get.village')}}?district_id=" + district_id, 'get',).then(function (response) {
 
                 let option = '';
                 response.forEach(function (data) {
                     option += `<option value="${data.id}">${data.name}</option>`;
                 });
-                $('#village').append(option);
+                $('.village').append(option);
             }).catch(function (error) {
                 // Handle errors if any
                 console.error('Error fetching data:', error);
             });
+        });
+
+        $('#export').click(function () {
+            window.location.href = "{{route('voters.pdf')}}?subdistrict=" + $('.subdistrict').val() + "&village=" + $('.village').val();
         });
     </script>
 @endpush

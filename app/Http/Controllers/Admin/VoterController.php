@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\TestEmail;
 use App\Models\Voter;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class VoterController extends Controller
@@ -16,7 +15,6 @@ class VoterController extends Controller
      */
     public function index()
     {
-        //dataTables yajra
         if (request()->ajax()) {
             return datatables()->of(Voter::with(['village.district'])->latest()->get())
                 ->addColumn('action', function ($data) {
@@ -148,8 +146,15 @@ class VoterController extends Controller
         return response()->json(['message' => 'Voter deleted successfully']);
     }
 
-    public function test()
+    /*
+    * print PDF
+    */
+    public function createPdf(Request $request)
     {
-        Mail::to('faisaldwiki69@gmail.com')->send(new TestEmail());
+        $ambildata = Voter::all();
+
+        $pdf = PDF::loadView('admin.voters.pdf', compact('ambildata'));
+
+        return $pdf->download('saksi.pdf');
     }
 }
