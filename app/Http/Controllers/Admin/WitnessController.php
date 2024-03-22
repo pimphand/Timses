@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Saksi;
 use App\Http\Controllers\Controller;
+use App\Models\Tps;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class WitnessController extends Controller
 {
@@ -122,5 +126,47 @@ class WitnessController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'Witness deleted successfully']);
+    }
+
+    /*
+     * generate generateWitness
+     */
+    public function generateWitness(Request $request)
+    {
+        $tps = Tps::where('district_id', $request->district_id)->get();
+        $users = [];
+        foreach ($tps as $tp) {
+            $token = Str::random(5);
+            $users[] = User::firstOrCreate([
+                'tps_id' => $tp->id,
+            ], [
+                'name' => 'Saksi '.$tp->name,
+                'email' => rand(1000, 10000).'saksi_'.Str::replace(' ', '_', $tp->name).'@gmail.com', // change this to your email domain (optional
+                'password' => bcrypt($token),
+                'username' => Str::random(5).rand(1, 1000),
+                'role' => 'saksi',
+                'phone' => null,
+                'token' => encrypt($token),
+                'district_id' => $tp->district_id,
+                'village_id' => $tp->village_id,
+            ]);
+        }
+
+        $excelFileName = 'saksi.xlsx';
+        $excelFilePath = 'public/excel/'.$excelFileName;
+
+        Excel::store(new Saksi(collect($users)), $excelFilePath);
+
+        // Generate URL for the saved Excel file
+        $excelFileUrl = asset('storage/excel/'.$excelFileName);
+
+        return $excelFileUrl;
+    }
+
+    public function export(Request $request)
+    {
+        $users = User::with(['tps'])->where('role', 'saksi')->where('district_id', $request->district_id)->where('village_id', $request->village_id)->get();
+
+        return Excel::download(new Saksi($users), 'saksi.xlsx');
     }
 }

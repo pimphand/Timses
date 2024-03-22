@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
+use App\Models\Setting;
 use App\Models\Voter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -65,5 +67,33 @@ class FrontendController extends Controller
         ));
 
         return response()->json(['message' => 'Voter created successfully', 'voter' => $voter]);
+    }
+
+    public function data()
+    {
+        $settings = Setting::all();
+        $data = [];
+        foreach ($settings as $setting) {
+            $data[$setting->name] = $setting->value;
+        }
+
+        return response()->json([
+            'data' => $data,
+            'news' => News::all(),
+        ]);
+    }
+
+    public function news()
+    {
+        $news = News::all();
+
+        return view('news', compact('news'));
+    }
+
+    public function detail($slug)
+    {
+        $news = News::where('slug', $slug)->first();
+
+        return view('news-details', compact('news'));
     }
 }

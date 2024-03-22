@@ -27,6 +27,10 @@ class User extends Authenticatable
         'username',
         'role',
         'phone',
+        'token',
+        'tps_id',
+        'village_id',
+        'district_id',
     ];
 
     /**

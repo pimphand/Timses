@@ -49,32 +49,22 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="apps-calendar.html" class="side-nav-link">
+                <a href="{{route('quickCount')}}" class="side-nav-link">
                     <i class="ri-calendar-event-fill"></i>
                     <span> Quick Count </span>
                 </a>
             </li>
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarMaps" aria-expanded="false" aria-controls="sidebarMaps"
-                   class="side-nav-link">
-                    <i class="ri-treasure-map-fill"></i>
-                    <span> Rekap Data </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarMaps">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="{{route('data-recap.index')}}">Rekap</a>
-                        </li>
-                        @if(auth()->user()->role != null)
-                            <li>
-                                <a href="{{route('data-recap.create')}}">Input Rekap</a>
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-            </li>
+            @if(auth()->user()->role != null)
+                <li class="side-nav-item">
+                    <a href="{{route('data-recap.index')}}" aria-expanded="false"
+                       aria-controls="sidebarMaps"
+                       class="side-nav-link">
+                        <i class="ri-treasure-map-fill"></i>
+                        <span> Input Rekap </span>
+                    </a>
+                </li>
+            @endif
 
             @if(auth()->user()->role == null)
                 <li class="side-nav-title">Data Master</li>

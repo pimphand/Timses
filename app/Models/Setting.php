@@ -12,4 +12,16 @@ class Setting extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'value' => 'array',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->type = 'string';
+        });
+    }
 }

@@ -2,16 +2,42 @@
 
 namespace App\Exports;
 
-use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class Saksi implements FromCollection
+class Saksi implements FromCollection, WithHeadings
 {
-    /**
-     * @return \Illuminate\Support\Collection
-     */
+    protected $users;
+
+    public function __construct($users)
+    {
+        $this->users = $users;
+    }
+
     public function collection()
     {
-        return User::all();
+        return $this->users->map(function ($user) {
+            // Ambil TPS pengguna
+            $tps = $user->tps;
+
+            return [
+                'Email' => $user->email,
+                'Password' => decrypt($user->token),
+                'TPS' => $tps ? $tps->name : '',
+                'Kecamatan' => $tps ? $tps->district->name : '',
+                'Kelurahan' => $tps ? $tps->village->name : '',
+            ];
+        });
+    }
+
+    public function headings(): array
+    {
+        return [
+            'Email',
+            'Password',
+            'TPS',
+            'Kecamatan',
+            'Kelurahan',
+        ];
     }
 }

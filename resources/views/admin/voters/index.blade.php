@@ -270,6 +270,7 @@
 
         $('#subdistrict').change(function () {
             let district_id = $(this).val();
+            $('#village').html('<option value="" disabled>Pilih Kelurahan/Desa</option>');
             formAjax({}, "{{route('get.village')}}?district_id=" + district_id, 'get',).then(function (response) {
 
                 let option = '';

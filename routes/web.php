@@ -25,6 +25,10 @@ Route::get('tps-data', [\App\Http\Controllers\Admin\TpsController::class, 'data'
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard/data', [\App\Http\Controllers\Admin\DashboardController::class, 'data'])->name('dashboard.data');
+
+    Route::get('/quick-count', [\App\Http\Controllers\Admin\DashboardController::class, 'quickCount'])->name('quickCount');
+    Route::get('/quick-count/data', [\App\Http\Controllers\Admin\DashboardController::class, 'quickCountData'])->name('quickCount.data');
+
     Route::resource('data-recap', \App\Http\Controllers\Admin\DataRecapController::class);
     Route::group(['middleware' => ['isAdmin']], function () {
         Route::get('get-images', [\App\Http\Controllers\FileController::class, 'show'])->name('file.show')->middleware('auth');
@@ -32,6 +36,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('voters', \App\Http\Controllers\Admin\VoterController::class);
         Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
         Route::resource('witnesses', \App\Http\Controllers\Admin\WitnessController::class);
+        Route::post('generateWitness', [\App\Http\Controllers\Admin\WitnessController::class, 'generateWitness'])->name('generateWitness');
+        Route::get('generateWitness-export', [\App\Http\Controllers\Admin\WitnessController::class, 'export'])->name('witnessexport');
+
         Route::resource('tps', \App\Http\Controllers\Admin\TpsController::class);
         Route::resource('candidates', \App\Http\Controllers\Admin\CandidateController::class);
         Route::resource('settings', \App\Http\Controllers\Admin\SettingController::class);
@@ -39,5 +46,8 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::get('/', [\App\Http\Controllers\FrontendController::class, 'index']);
+Route::get('/data', [\App\Http\Controllers\FrontendController::class, 'data'])->name('data');
+Route::get('/semua-berita', [\App\Http\Controllers\FrontendController::class, 'news'])->name('all-news');
+Route::get('/detail-berita/{slug}', [\App\Http\Controllers\FrontendController::class, 'detail'])->name('news-detail');
 Route::get('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'register']);
 Route::post('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'storeRegister'])->name('register');

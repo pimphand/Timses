@@ -14,7 +14,8 @@ class News extends Model
 
     protected $guarded = [];
 
-    //function bot
+    protected $hidden = ['updated_at', 'deleted_at', 'status'];
+
     protected static function boot()
     {
         parent::boot();

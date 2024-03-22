@@ -17,4 +17,9 @@ class DetailDataRecap extends Model
     {
         return $this->belongsTo(Candidate::class);
     }
+
+    public function dataRecap()
+    {
+        return $this->belongsTo(DataRecap::class);
+    }
 }

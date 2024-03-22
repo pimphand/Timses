@@ -11,7 +11,7 @@
                 <div class="col-lg-12">
                     <div class="conFormWrapper">
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-12">
                                 <h2>Daftar Menjadi Relawan</h2>
                                 <div class="contact_form">
                                     <form action="{{route('register')}}" method="post" class="row">
@@ -65,24 +65,24 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-md-5">
-                                <div class="contactInfo">
-                                    <img src="{{asset('frontend')}}/images/c1.png" alt=""/>
-                                    <h4>Phone</h4>
-                                    <p>
-                                        Call : +8801682648101<br>
-                                        Fax : 02 9292162
-                                    </p>
-                                </div>
-                                <div class="contactInfo">
-                                    <img src="{{asset('frontend')}}/images/c2.png" alt=""/>
-                                    <h4>Address</h4>
-                                    <p>
-                                        Boat House, 2/21 City Road
-                                        Hoxton, N1 6NG, UK
-                                    </p>
-                                </div>
-                            </div>
+                            {{--                            <div class="col-md-5">--}}
+                            {{--                                <div class="contactInfo">--}}
+                            {{--                                    <img src="{{asset('frontend')}}/images/c1.png" alt=""/>--}}
+                            {{--                                    <h4>Phone</h4>--}}
+                            {{--                                    <p>--}}
+                            {{--                                        Call : +8801682648101<br>--}}
+                            {{--                                        Fax : 02 9292162--}}
+                            {{--                                    </p>--}}
+                            {{--                                </div>--}}
+                            {{--                                <div class="contactInfo">--}}
+                            {{--                                    <img src="{{asset('frontend')}}/images/c2.png" alt=""/>--}}
+                            {{--                                    <h4>Address</h4>--}}
+                            {{--                                    <p>--}}
+                            {{--                                        Boat House, 2/21 City Road--}}
+                            {{--                                        Hoxton, N1 6NG, UK--}}
+                            {{--                                    </p>--}}
+                            {{--                                </div>--}}
+                            {{--                            </div>--}}
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
         }
 
         formAjax({}, "{{route('get.district')}}?city_id=3202", 'get',).then(function (response) {
-            let option = '<option value="" disabled selected>Pilih Kecamatan/Kota</option>';
+            let option = '<option value="" disabled selected>Pilih Kecamatan</option>';
             response.forEach(function (data) {
                 option += `<option value="${data.id}">${data.name}</option>`;
             });
@@ -128,22 +128,6 @@
                 console.error('Error fetching data:', error);
             });
         });
-
-        function formAjax(data = null, url, method = 'post',) {
-            return new Promise(function (resolve, reject) {
-                $.ajax({
-                    type: method,
-                    url: url,
-                    data: data,
-                    contentType: false,
-                    processData: false,
-                }).done(function (response) {
-                    resolve(response);
-                }).fail(function (error) {
-                    reject(error);
-                });
-            });
-        }
 
         $('form').submit(function (e) {
             e.preventDefault();
@@ -174,6 +158,11 @@
                     //show error message
                     $(`#error-${name}`).text(message);
                 });
+                Swal.fire({
+                    title: "Error!",
+                    text: "Pastikan data sudah sesuai!",
+                    icon: "error"
+                });
             });
         });
 
@@ -183,6 +172,11 @@
                 $(`#show_identity_card`).attr('src', e.target.result);
             }
             reader.readAsDataURL(this.files[0]);
+        });
+
+        $("._to_home").click(function () {
+            //href to /
+            window.location.href = "/" + $(this).attr('href');
         });
     </script>
 @endpush

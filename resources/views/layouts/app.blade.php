@@ -45,7 +45,7 @@
             <div class="col-lg-12">
                 <div class="navBar01">
                     <div class="logo">
-                        <a href="#home"><img src="{{asset('frontend')}}/images/logo.png" alt="Dgita"></a>
+                        <h4>{{env('APP_NAME')}}</h4>
                     </div>
                     <a href="javascript:void(0)" class="menu_btn"><i class="twi-bars2"></i></a>
                     <nav class="mainMenu">
@@ -81,63 +81,13 @@
 
 <!-- Footer Section -->
 <footer class="footer_01 white" id="daftarrelawan">
-    <div class="SecLayerimg move_anim">
-        <img src="{{asset('frontend')}}/images/bg/s17.png" alt="">
-    </div>
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-lg-3 col-xl-3">
-                <div class="widget">
-                    <div class="aboutWidget">
-                        <a href="index.html"><img src="{{asset('frontend')}}/images/logo.png" alt=""/></a>
-                        <p>1864 Lancaster Court Road Poughkeepsie, CA 12601</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-3 offset-xl-1 col-lg-3 ">
-                <div class="widget">
-                    <h3 class="widget_title">About Company</h3>
-                    <ul>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="team.html">Team Member</a></li>
-                        <li><a href="folio1.html">Our Portfolio</a></li>
-                        <li><a href="blog1.html">News</a></li>
-                        <li><a href="company.html">Company History</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3 col-xl-2">
-                <div class="widget">
-                    <h3 class="widget_title">Our Services</h3>
-                    <ul>
-
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3 col-xl-3">
-                <div class="widget contact_widget">
-                    <h3 class="widget_title">Contact Us</h3>
-                    <div class="contact_info">
-                        <p>dgita.info@gmail.com</p>
-                        <p>+88 016 826 48 11</p>
-                        <div class="abSocial">
-                            <a href="javascript:void(0);"><i class="twi-facebook-f"></i></a>
-                            <a href="javascript:void(0);"><i class="twi-linkedin-in"></i></a>
-                            <a href="javascript:void(0);"><i class="twi-instagram"></i></a>
-                            <a href="javascript:void(0);"><i class="twi-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="copyright">
-                    <p>Copyright 2021, All Right Reserved</p>
+                    <p>Copyright 2024, All Right Reserved</p>
                     <ul>
-                        <li><a href="javascript:void(0);">Privacy</a></li>
-                        <li><a href="javascript:void(0);">Policy</a></li>
-                        <li><a href="javascript:void(0);">Terms of Service</a></li>
+                        <li><a href="{{route('register')}}">Daftar Relawan</a></li>
                     </ul>
                 </div>
             </div>
@@ -195,6 +145,22 @@
             }
         });
     });
+
+    function formAjax(data = null, url, method = 'post',) {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                type: method,
+                url: url,
+                data: data,
+                contentType: false,
+                processData: false,
+            }).done(function (response) {
+                resolve(response);
+            }).fail(function (error) {
+                reject(error);
+            });
+        });
+    }
 </script>
 @stack('js')
 </body>

@@ -17,6 +17,23 @@
             </div>
         </div>
     </div>
+    <div class="row m-3">
+        <div class="col-sm-4 col-xxl-4">
+            <h5>KAB. SUKABUMI</h5>
+            <div id="chart">
+            </div>
+        </div>
+        <div class="col-sm-4 col-xxl-4" id="show_kecamatan" style="display: none;">
+            <h5>Kecamatan <span id="_kecamatan_name"></span></h5>
+            <div id="kecamatan_chart">
+            </div>
+        </div>
+        <div class="col-sm-4 col-xxl-4" id="show_kelurahan" style="display: none;">
+            <h5>Kelurahan <span id="_kelurahan_name"></span></h5>
+            <div id="kelurahan_chart">
+            </div>
+        </div>
+    </div>
 
     <div class="col-sm-12 col-xxl-12">
         <div class="card">
@@ -25,9 +42,8 @@
                     <div class="col-4">
                         <input type="text" class="form-control" id="example-disable" disabled="" value="JAWA BARAT">
                     </div>
-
                     <div class="col-4">
-                        <input type="text" class="form-control" id="example-disable" disabled=""
+                        <input type="text" class="form-control" id="example-disable" disabled="" id="city"
                                value="KABUPATEN SUKABUMI">
                     </div>
                     <div class="col-4">
@@ -49,28 +65,29 @@
             </div> <!-- end card-body -->
         </div> <!-- end card -->
     </div>
-    Data test Kec : Ciambar Kel : Ambarjaya TPS : 13
     <div class="row mb-5" id="_data-recap-show">
+
+        <div class="col-sm-3 col-xxl-3" id="_data_tps" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-6">TOTAL SUARA</dt>
+                        <dd class="col-sm-6" id="data_total">-</dd>
+                        <dt class="col-sm-6">SUARA SAH</dt>
+                        <dd class="col-sm-6" id="data_valid">-</dd>
+                        <dt class="col-sm-6">SUARA TIDAK SAH</dt>
+                        <dd class="col-sm-6" id="data_invalid">-</dd>
+                    </dl>
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div>
         <div class="col-xl-12">
             <div class="mb-4">
-                <div class="col-sm-4 col-xxl-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <dl class="row mb-0">
-                                <dt class="col-sm-6">TOTAL SUARA</dt>
-                                <dd class="col-sm-6" id="data_total">-</dd>
-                                <dt class="col-sm-6">TOTAL SUARA SAH</dt>
-                                <dd class="col-sm-6" id="data_valid">-</dd>
-                                <dt class="col-sm-6">TOTAL SUARA TIDAK SAH</dt>
-                                <dd class="col-sm-6" id="data_invalid">-</dd>
-                            </dl>
-                        </div> <!-- end card-body -->
-                    </div> <!-- end card -->
-                </div>
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse"
+                            <button class="accordion-button fw-medium collapsed" type="button"
+                                    data-bs-toggle="collapse"
                                     data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                 File Upload
                             </button>
@@ -86,7 +103,8 @@
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse"
+                            <button class="accordion-button fw-medium collapsed" type="button"
+                                    data-bs-toggle="collapse"
                                     data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 Perolehan Suara Paslon
                             </button>
@@ -121,6 +139,9 @@
 @endsection
 
 @push('js')
+    <script src="{{asset('assets')}}/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/dayjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/plugin/quarterOfYear.min.js"></script>
     <script>
         formAjax({}, "{{route('get.district')}}?city_id=3202", 'get',).then(function (response) {
             $('#subdistrict').html('');
@@ -137,6 +158,8 @@
 
         $('#subdistrict').change(function () {
             let district_id = $(this).val();
+            //_kecamatan_name
+            $('#_kecamatan_name').text($('#subdistrict option:selected').text());
             $('#village').html('');
             formAjax({}, "{{route('get.village')}}?district_id=" + district_id, 'get',).then(function (response) {
                 let option = '<option value="" disabled selected>Pilih Kelurahan/Desa</option>';
@@ -144,6 +167,43 @@
                     option += `<option value="${data.id}">${data.name}</option>`;
                 });
                 $('#village').append(option);
+            }).catch(function (error) {
+                // Handle errors if any
+                console.error('Error fetching data:', error);
+            });
+
+            //get data suara Kota
+            formAjax({}, "{{route('quickCount.data')}}?getKecamatan=" + district_id, 'get',).then(function (response) {
+                $('#_data_kecamatan').text(response.data);
+                $('#show_kecamatan').show();
+
+                var seriesData = response.data.series;
+                var labelsData = response.data.labels;
+                var options = {
+                    series: seriesData,
+                    chart: {
+                        width: 400,
+                        type: 'pie',
+                        dataLabels: {
+                            offset: 0,
+                            minAngleToShowLabel: 10
+                        },
+                    },
+
+                    labels: labelsData,
+                    legend: {
+                        position: 'bottom',
+                        horizontalAlign: 'left',
+                    },
+                };
+
+                if (response.data.series.length > 0) {
+                    $('#kecamatan_chart').html('');
+                    var chart = new ApexCharts(document.querySelector("#kecamatan_chart"), options);
+                    chart.render();
+                } else {
+                    $("#kecamatan_chart").html('<h5>Data Tidak Ditemukan</h5>');
+                }
             }).catch(function (error) {
                 // Handle errors if any
                 console.error('Error fetching data:', error);
@@ -165,6 +225,41 @@
                 // Handle errors if any
                 console.error('Error fetching data:', error);
             });
+            formAjax({}, "{{route('quickCount.data')}}?getKelurahan=" + village_id, 'get',).then(function (response) {
+                $('#_kelurahan_name').text($('#village option:selected').text());
+                $('#show_kelurahan').show();
+
+                var seriesData = response.data.series;
+                var labelsData = response.data.labels;
+                var options = {
+                    series: seriesData,
+                    chart: {
+                        width: 400,
+                        type: 'pie',
+                        dataLabels: {
+                            offset: 0,
+                            minAngleToShowLabel: 10
+                        },
+                    },
+
+                    labels: labelsData,
+                    legend: {
+                        position: 'bottom',
+                        horizontalAlign: 'left',
+                    },
+                };
+
+                if (response.data.series.length > 0) {
+                    $('#kelurahan_chart').html('');
+                    var chart = new ApexCharts(document.querySelector("#kelurahan_chart"), options);
+                    chart.render();
+                } else {
+                    $("#kelurahan_chart").html('<h5>Data Tidak Ditemukan</h5>');
+                }
+            }).catch(function (error) {
+                // Handle errors if any
+                console.error('Error fetching data:', error);
+            });
         });
 
         $('#tps').change(function () {
@@ -173,6 +268,8 @@
                 $('#_data-recap-show').show('');
                 $('#_data-upload').html('');
                 $('#_data-recap').html('');
+                //hide
+                $('#_data_tps').show();
                 response.details.forEach(function (data) {
                     $('#_data-recap').append(`
                     <div class="card d-block">
@@ -209,5 +306,34 @@
                 $('#image').attr('src', "{{asset('assets')}}/images/small/small-1.jpg");
             });
         }
+
+        //get data suara Kota
+        formAjax({}, "{{route('quickCount.data')}}?getKota=1", 'get',).then(function (response) {
+            var seriesData = response.data.series;
+            var labelsData = response.data.labels;
+            var options = {
+                series: seriesData,
+                chart: {
+                    width: 400,
+                    type: 'pie',
+                    dataLabels: {
+                        offset: 0,
+                        minAngleToShowLabel: 10
+                    },
+                },
+
+                labels: labelsData,
+                legend: {
+                    position: 'bottom',
+                    horizontalAlign: 'left',
+                },
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        }).catch(function (error) {
+            console.error('Error fetching data:', error);
+        });
+
     </script>
 @endpush
