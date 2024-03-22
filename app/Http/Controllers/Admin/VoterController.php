@@ -152,9 +152,19 @@ class VoterController extends Controller
     public function createPdf(Request $request)
     {
         $ambildata = Voter::all();
+        $sourceFolder = storage_path('images/voter');
+        $destinationFolder = public_path('images/voter');
 
-        //        return view('admin.voters.pdf', compact('ambildata'));
-        $pdf = PDF::loadView('admin.voters.pdf', compact('ambildata'));
+        // Buat symlink jika belum ada
+        if (! file_exists($destinationFolder)) {
+            symlink($sourceFolder, $destinationFolder);
+        }
+
+        $pdf = Pdf::loadView('admin.voters.pdf', compact('ambildata'));
+
+        if (is_link($destinationFolder)) {
+            unlink($destinationFolder);
+        }
 
         return $pdf->download('saksi.pdf');
     }
