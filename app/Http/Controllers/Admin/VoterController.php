@@ -18,9 +18,9 @@ class VoterController extends Controller
         if (request()->ajax()) {
             return datatables()->of(Voter::with(['village.district'])->latest()->get())
                 ->addColumn('action', function ($data) {
-                    $button = '<button type="button" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" name="delete" data-id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+                    $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
 
                     return $button;
                 })
@@ -63,9 +63,9 @@ class VoterController extends Controller
 
         if ($request->hasFile('identity_card')) {
             $image = $request->file('identity_card');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(storage_path('images/voter'), $imageName);
-            $imageUrl = 'images/voter/'.$imageName;
+            $imageUrl = 'images/voter/' . $imageName;
         } else {
             $imageUrl = null;
         }
@@ -102,8 +102,8 @@ class VoterController extends Controller
     {
         $validated = Validator::make($request->all(), [
             'name' => 'required',
-            'nik' => 'required|integer|digits:16|unique:voters,nik,'.$voter->id,
-            'kk' => 'nullable|integer|digits:16|unique:voters,kk,'.$voter->id,
+            'nik' => 'required|integer|digits:16|unique:voters,nik,' . $voter->id,
+            'kk' => 'nullable|integer|digits:16|unique:voters,kk,' . $voter->id,
             'tps' => 'nullable',
             'address' => 'nullable',
             'province' => 'required',
@@ -123,9 +123,9 @@ class VoterController extends Controller
                 unlink(storage_path($voter->identity_card));
             }
             $image = $request->file('identity_card');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(storage_path('images/voter'), $imageName);
-            $imageUrl = 'images/voter/'.$imageName;
+            $imageUrl = 'images/voter/' . $imageName;
         } else {
             $imageUrl = $voter->identity_card;
         }
@@ -156,10 +156,11 @@ class VoterController extends Controller
         $destinationFolder = public_path('images/voter');
 
         // Buat symlink jika belum ada
-        if (! file_exists($destinationFolder)) {
+        if (!file_exists($destinationFolder)) {
             symlink($sourceFolder, $destinationFolder);
         }
 
+        // return view('admin.voters.pdf', compact('ambildata'));
         $pdf = Pdf::loadView('admin.voters.pdf', compact('ambildata'));
 
         if (is_link($destinationFolder)) {

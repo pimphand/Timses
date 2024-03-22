@@ -66,7 +66,7 @@
                     <td>{{ $report->name }}</td>
                     <td>
                         <img
-                            src="{{ asset('images/' . $report->photo) }}"
+                            src="{{ asset($report->identity_card) }}"
                             width="150px"
                             height="110"/> <br>
                         No KTP: {{ $report->nik }}
