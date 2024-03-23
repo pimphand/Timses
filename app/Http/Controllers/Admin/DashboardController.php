@@ -52,20 +52,49 @@ class DashboardController extends Controller
                 'vote_kelurahan' => Voter::where('village_id', '=', $request->getKelurahan)->count(),
             ];
         }
-        //        $kecamatanshow = DB::table('data_recaps')
-        //            ->join('detail_data_recaps', 'data_recaps.id', '=', 'detail_data_recaps.data_recap_id')
-        //            ->join('candidates', 'detail_data_recaps.candidate_id', '=', 'candidates.id')
-        //            ->join('indonesia_districts', 'data_recaps.district', '=', 'indonesia_districts.id')
-        //            ->where('candidates.default', '=', 1)
-        //            ->select('indonesia_districts.name', DB::raw('SUM(detail_data_recaps.vote) as total_vote'))
-        //            ->groupBy('indonesia_districts.name')
-        //            ->get();
+
+        $voters = DB::table('voters')
+            ->join('indonesia_districts as districts', 'voters.subdistrict', '=', 'districts.id')
+            ->select('districts.name as district_name', DB::raw('COUNT(*) as total_voters'))
+            ->groupBy('districts.name')
+            ->whereNull('voters.deleted_at')
+            ->get();
+
+        $series = [];
+        $labels = [];
+
+        foreach ($voters as $item) {
+            $labels[] = $item->district_name;
+            $series[] = (int) $item->total_voters;
+        }
+
+        $voters_kelurahan = DB::table('voters')
+            ->join('indonesia_villages as village', 'voters.village_id', '=', 'village.id')
+            ->select('village.name as village_name', DB::raw('COUNT(*) as total_voters'))
+            ->groupBy('village.name')
+            ->whereNull('voters.deleted_at')
+            ->get();
+
+        $series_kelurahan = [];
+        $labels_kelurahan = [];
+
+        foreach ($voters_kelurahan as $item) {
+            $labels_kelurahan[] = $item->village_name;
+            $series_kelurahan[] = (int) $item->total_voters;
+        }
 
         return [
             'hasil_kota' => (int) $data->total_vote,
             'vote_kota' => Voter::count(),
             'saksi' => User::where('role', 'saksi')->count(),
-            //            'kecamatanshow' => $kecamatanshow,
+            'series_kecamatan' => [
+                'series' => $series,
+                'labels' => $labels,
+            ],
+            'series_kelurahan' => [
+                'series' => $series_kelurahan,
+                'labels' => $labels_kelurahan,
+            ],
         ];
     }
 

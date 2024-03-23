@@ -346,24 +346,24 @@
 
             let url = "{{ route('voters.pdf') }}" + "?subdistrict=" + subdistrict + "&village=" + village + "&type=" + type;
             //add loading button disabled
-            $('button').attr('disabled', true);
+            $('#export').attr('disabled', true);
             //add loading button
-            $('button').html('<i class="fa fa-spinner fa-spin"></i> Loading...');
+            $('#export').html('<i class="fa fa-spinner fa-spin"></i> Loading...');
             formAjax({}, url, 'post')
                 .then(function (response) {
                     // Handle success
                     window.open(response.url, '_blank');
                     //remove loading button
-                    $('button').html('Export PDF');
+                    $('#export').html('Export PDF');
                     //remove loading button disabled
-                    $('button').attr('disabled', false);
+                    $('#export').attr('disabled', false);
                 })
                 .catch(function (error) {
                     // Handle errors if any
                     //remove loading button
-                    $('button').html('Export PDF');
+                    $('#export').html('Export PDF');
                     //remove loading button disabled
-                    $('button').attr('disabled', false);
+                    $('#export').attr('disabled', false);
                     //swet alert
                     Swal.fire({
                         title: "Error!",

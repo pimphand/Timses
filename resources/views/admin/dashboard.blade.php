@@ -35,6 +35,24 @@
 
     </div>
     <div class="row">
+        <div class="col-sm-6 col-xxl-6">
+            <div class="card">
+                <div class="card-body">
+                    <div dir="ltr">
+                        <div id="_all_kecamatan" class="apex-charts" data-colors="#fa5c7c"></div>
+                    </div>
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div> <!-- end col -->
+        <div class="col-sm-6 col-xxl-6">
+            <div class="card">
+                <div class="card-body">
+                    <div dir="ltr">
+                        <div id="_all_kelurahan" class="apex-charts" data-colors="#fa5c7c"></div>
+                    </div>
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div> <!-- end col -->
 
         <div class="col-sm-4 col-xxl-4">
             <div class="card">
@@ -169,6 +187,8 @@
 
             var chart = new ApexCharts(document.querySelector("#chart"), options);
             chart.render();
+            kecamatan(response.series_kecamatan);
+            kelurahan(response.series_kelurahan)
             $('#_relawan').text(response.vote_kota)
             $('#_saksi').text(response.saksi)
         }).catch(function (error) {
@@ -306,5 +326,57 @@
                 console.error('Error fetching data:', error);
             });
         });
+
+        //chart all kecamatan
+        function kecamatan(response) {
+            var options = {
+                series: response.series,
+                chart: {
+                    width: 380,
+                    type: 'pie',
+                },
+                labels: response.labels,
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var chart = new ApexCharts(document.querySelector("#_all_kecamatan"), options);
+            chart.render();
+        }
+
+        //chart all kecamatan
+        function kelurahan(response) {
+            var options = {
+                series: response.series,
+                chart: {
+                    width: 380,
+                    type: 'pie',
+                },
+                labels: response.labels,
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var chart = new ApexCharts(document.querySelector("#_all_kelurahan"), options);
+            chart.render();
+        }
     </script>
 @endpush
