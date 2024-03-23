@@ -18,6 +18,9 @@ class VoterController extends Controller
         if (request()->ajax()) {
             return datatables()->of(Voter::with(['village.district'])
                 ->where(function ($query) {
+                    if (request()->subdistrict) {
+                        $query->where('subdistrict', request()->subdistrict);
+                    }
                     if (request()->village) {
                         $query->where('village_id', request()->village);
                     }
@@ -157,18 +160,19 @@ class VoterController extends Controller
     */
     public function createPdf(Request $request)
     {
-        if ($request->type == 'semua') {
-            $ambildata = Voter::with(['village.district'])->get();
-        } elseif ($request->type == 'kecamatan') {
+        if ($request->type == 'kecamatan' && $request->type == 'kecamatan') {
             $ambildata = Voter::with(['village.district'])
-                ->where('village_id', $request->subdistrict)
+                ->where('subdistrict', $request->subdistrict)
                 ->get();
-        } elseif ($request->village = 'null') {
+            $type = 'Kecamatan';
+        } elseif ($request->village && $request->type != 'kecamatan' && $request->type != 'semua') {
             $ambildata = Voter::with(['village.district'])
                 ->where('village_id', $request->village)
                 ->get();
+            $type = 'Kelurahan';
         } else {
-            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan'], 404);
+            $ambildata = Voter::with(['village.district'])->get();
+            $type = 'Semua';
         }
 
         if ($ambildata->isEmpty()) {
@@ -191,7 +195,7 @@ class VoterController extends Controller
         $files = glob("$sourceFolder/*");
         \Log::info('Files in source folder: '.print_r($files, true));
 
-        $pdf = Pdf::loadView('admin.voters.pdf', compact('ambildata'));
+        $pdf = Pdf::loadView('admin.voters.pdf', compact('ambildata', 'type'));
         $pdf->set_option('isRemoteEnabled', true);
 
         // Generate unique filename
@@ -212,6 +216,5 @@ class VoterController extends Controller
         }
 
         return response()->json(['success' => true, 'url' => asset('pdfs/'.$filename)]);
-
     }
 }
