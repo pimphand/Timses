@@ -64,16 +64,19 @@ class FrontendController extends Controller
             }
 
             $image = $request->file('identity_card');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
             $img->move(storage_path('images/voter'), $imageName);
-            $imageUrl = 'images/voter/'.$imageName;
+            $imageUrl = 'images/voter/' . $imageName;
         } else {
             $imageUrl = null;
         }
 
         $voter = Voter::create(array_merge(
             $validator->validated(),
-            ['identity_card' => $imageUrl]
+            [
+                'identity_card' => $imageUrl,
+                'name' => $request->fullname,
+            ]
         ));
 
         return response()->json(['message' => 'Voter created successfully', 'voter' => $voter]);
