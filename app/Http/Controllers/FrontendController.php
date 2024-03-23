@@ -64,9 +64,9 @@ class FrontendController extends Controller
             }
 
             $image = $request->file('identity_card');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->move(storage_path('images/voter'), $imageName);
-            $imageUrl = 'images/voter/' . $imageName;
+            $imageUrl = 'images/voter/'.$imageName;
         } else {
             $imageUrl = null;
         }
