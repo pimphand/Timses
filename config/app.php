@@ -168,6 +168,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         App\Providers\EventServiceProvider::class,
@@ -189,6 +190,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Indonesia' => Laravolt\Indonesia\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ])->toArray(),
 
 ];

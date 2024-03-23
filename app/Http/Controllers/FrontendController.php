@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Models\Voter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class FrontendController extends Controller
 {
@@ -23,7 +24,7 @@ class FrontendController extends Controller
     public function storeRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'fullname' => 'required|max:255',
             'nik' => 'required|integer|unique:voters,nik|digits:16',
             'kk' => 'nullable|integer|unique:voters,kk|digits:16',
             'tps' => 'nullable',
@@ -54,9 +55,17 @@ class FrontendController extends Controller
         }
 
         if ($request->hasFile('identity_card')) {
+            $file = $request->file('identity_card');
+            $img = Image::make($file);
+            if (Image::make($file)->width() > 720) {
+                $img->resize(720, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+
             $image = $request->file('identity_card');
             $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->move(storage_path('images/voter'), $imageName);
+            $img->move(storage_path('images/voter'), $imageName);
             $imageUrl = 'images/voter/'.$imageName;
         } else {
             $imageUrl = null;
