@@ -24,7 +24,7 @@ class FrontendController extends Controller
     public function storeRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
+            'fullname' => 'required|max:255',
             'nik' => 'required|integer|unique:voters,nik|digits:16',
             'kk' => 'nullable|integer|unique:voters,kk|digits:16',
             'tps' => 'nullable',
@@ -44,8 +44,8 @@ class FrontendController extends Controller
 
             'subdistrict.required' => 'Kecamatan harus diisi',
             'village_id.required' => 'Kelurahan/Desa harus diisi',
-            'name.required' => 'Nama harus diisi',
-            'name.max' => 'Nama maksimal 255 karakter',
+            'fullname.required' => 'Nama harus diisi',
+            'fullname.max' => 'Nama maksimal 255 karakter',
             'nik.required' => 'NIK harus diisi',
             'kk.required' => 'KK harus diisi',
         ]);
@@ -75,6 +75,7 @@ class FrontendController extends Controller
             $validator->validated(),
             [
                 'identity_card' => $imageUrl,
+                'name' => $request->fullname,
             ]
         ));
 
