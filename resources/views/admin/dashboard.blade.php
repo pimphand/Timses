@@ -39,6 +39,7 @@
             <div class="card">
                 <div class="card-body">
                     <div dir="ltr">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">Data Kecamatan</h5>
                         <div id="_all_kecamatan" class="apex-charts" data-colors="#fa5c7c"></div>
                     </div>
                 </div> <!-- end card-body -->
@@ -48,6 +49,9 @@
             <div class="card">
                 <div class="card-body">
                     <div dir="ltr">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">
+                            Data Kelurahan/Desa
+                        </h5>
                         <div id="_all_kelurahan" class="apex-charts" data-colors="#fa5c7c"></div>
                     </div>
                 </div> <!-- end card-body -->
