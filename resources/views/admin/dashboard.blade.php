@@ -332,7 +332,7 @@
             var options = {
                 series: response.series,
                 chart: {
-                    width: 380,
+                    width: 600,
                     type: 'pie',
                 },
                 labels: response.labels,
@@ -340,7 +340,7 @@
                     breakpoint: 480,
                     options: {
                         chart: {
-                            width: 200
+                            width: 500
                         },
                         legend: {
                             position: 'bottom'
@@ -358,7 +358,7 @@
             var options = {
                 series: response.series,
                 chart: {
-                    width: 380,
+                    width: 600,
                     type: 'pie',
                 },
                 labels: response.labels,
@@ -366,7 +366,7 @@
                     breakpoint: 480,
                     options: {
                         chart: {
-                            width: 200
+                            width: 500
                         },
                         legend: {
                             position: 'bottom'
