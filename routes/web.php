@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('get-images', [\App\Http\Controllers\FileController::class, 'show'])->name('file.show')->middleware('auth');
         Route::resource('volunteers', \App\Http\Controllers\Admin\VolunteerController::class);
         Route::resource('voters', \App\Http\Controllers\Admin\VoterController::class);
-        Route::get('voters-create-pdf', [\App\Http\Controllers\Admin\VoterController::class, 'createPdf'])->name('voters.pdf');
+        Route::post('voters-create-pdf', [\App\Http\Controllers\Admin\VoterController::class, 'createPdf'])->name('voters.pdf');
         Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
         Route::resource('witnesses', \App\Http\Controllers\Admin\WitnessController::class);
         Route::post('generateWitness', [\App\Http\Controllers\Admin\WitnessController::class, 'generateWitness'])->name('generateWitness');

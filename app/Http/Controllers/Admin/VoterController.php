@@ -16,7 +16,13 @@ class VoterController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return datatables()->of(Voter::with(['village.district'])->latest()->get())
+            return datatables()->of(Voter::with(['village.district'])
+                ->where(function ($query) {
+                    if (request()->village) {
+                        $query->where('village_id', request()->village);
+                    }
+                })
+                ->latest()->get())
                 ->addColumn('action', function ($data) {
                     $button = '<button type="button" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '&nbsp;&nbsp;';
@@ -151,22 +157,61 @@ class VoterController extends Controller
     */
     public function createPdf(Request $request)
     {
-        $ambildata = Voter::all();
+        if ($request->type == 'semua') {
+            $ambildata = Voter::with(['village.district'])->get();
+        } elseif ($request->type == 'kecamatan') {
+            $ambildata = Voter::with(['village.district'])
+                ->where('village_id', $request->subdistrict)
+                ->get();
+        } elseif ($request->village = 'null') {
+            $ambildata = Voter::with(['village.district'])
+                ->where('village_id', $request->village)
+                ->get();
+        } else {
+            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan'], 404);
+        }
+
+        if ($ambildata->isEmpty()) {
+            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan'], 404);
+        }
         $sourceFolder = storage_path('images/voter');
         $destinationFolder = public_path('images/voter');
 
         // Buat symlink jika belum ada
-        if (! file_exists($destinationFolder)) {
-            symlink($sourceFolder, $destinationFolder);
+        try {
+            if (! file_exists($destinationFolder)) {
+                symlink($sourceFolder, $destinationFolder);
+                \Log::info('Symlink created successfully');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error creating symlink: '.$e->getMessage());
         }
 
-        // return view('admin.voters.pdf', compact('ambildata'));
+        // Debugging: Check if images exist in source folder
+        $files = glob("$sourceFolder/*");
+        \Log::info('Files in source folder: '.print_r($files, true));
+
         $pdf = Pdf::loadView('admin.voters.pdf', compact('ambildata'));
+        $pdf->set_option('isRemoteEnabled', true);
 
+        // Generate unique filename
+        $filename = 'saksi_'.uniqid().'.pdf';
+
+        // Save PDF to public folder
+        //save to tmp folder
+        $pdf->save(public_path('pdfs/'.$filename));
+
+        // Remove symlink
         if (is_link($destinationFolder)) {
-            unlink($destinationFolder);
+            try {
+                unlink($destinationFolder);
+                \Log::info('Symlink removed successfully');
+            } catch (\Exception $e) {
+                \Log::error('Error removing symlink: '.$e->getMessage());
+            }
         }
 
-        return $pdf->download('saksi.pdf');
+        return response()->json(['success' => true, 'url' => asset('pdfs/'.$filename)]);
+
     }
 }

@@ -5,9 +5,17 @@
         <div class="row g-4">
             <div class="col-12">
                 <div class="mb-4">
+                    <div class="d-flex justify-content-between mb-3">
+                        <h4 class="card-title
+                        ">Relawan</h4>
+                        <button class="btn btn-primary" id="create" data-bs-toggle="modal">
+                            Tambah Relawan
+                        </button>
+                    </div>
                     <div class="row">
                         <div class="mb-2 col-md-8">
                             <div class="input-group">
+                                <button class="btn btn-danger reset">Reset</button>
                                 <select class="form-control subdistrict">
                                     <option value="" disabled>Pilih Kecamatan</option>
                                 </select>
@@ -17,13 +25,18 @@
                                 <button class="btn btn-info" id="export">Export PDF</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title
-                        ">Relawan</h4>
-                        <button class="btn btn-primary" id="create" data-bs-toggle="modal">
-                            Tambah Relawan
-                        </button>
+                        <div class="col-4">
+                            <div class="form-radio">
+                                <input type="radio" class="form-check-input" value="semua" name="type"
+                                       id="customCheck1">
+                                <label class="form-check-label" for="customCheck1">Export Semua</label>
+                            </div>
+                            <div class="form-radio">
+                                <input type="radio" class="form-check-input" value="kecamatan" name="type"
+                                       id="kecamtan_radio">
+                                <label class="form-check-label" for="kecamtan_radio">Export Kecamatan</label>
+                            </div>
+                        </div>
                     </div>
                     <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
@@ -121,11 +134,16 @@
 
 @push('js')
     <script>
-        $(document).ready(function () {
+        getData();
+
+
+        function getData(subdistrict = '', village = '') {
             let dataTable = $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('voters.index') }}',
+                responsive: true,
+                destroy: true,
+                ajax: '{{ route('voters.index') }}?subdistrict=' + subdistrict + '&village=' + village,
                 columns: [
                     {
                         data: 'created_at', name: 'created_at', render: function (data, type, row, meta) {
@@ -205,22 +223,21 @@
                 //remove previous feedback
                 $('.invalid-feedback').remove();
             });
+        }
 
-            $(document).on('click', '#create', function () {
-                $('#staticBackdropLabel').text('Tambah Pemilih');
-                $('form').attr('action', `voters`);
-                $('#name').val('');
-                $('#nik').val('');
-                $('#save').text('Simpan');
-                //remove method put
-                $('form').find('input[name="_method"]').remove();
-                $('#staticBackdrop').modal('show');
-                $('input').removeClass('is-invalid');
-                //remove previous feedback
-                $('.invalid-feedback').remove();
-            });
-        })
-        ;
+        $(document).on('click', '#create', function () {
+            $('#staticBackdropLabel').text('Tambah Pemilih');
+            $('form').attr('action', `voters`);
+            $('#name').val('');
+            $('#nik').val('');
+            $('#save').text('Simpan');
+            //remove method put
+            $('form').find('input[name="_method"]').remove();
+            $('#staticBackdrop').modal('show');
+            $('input').removeClass('is-invalid');
+            //remove previous feedback
+            $('.invalid-feedback').remove();
+        });
 
         //jquery submit form
         $('form').submit(function (e) {
@@ -254,7 +271,7 @@
         function getDistrict() {
             // Check if data exists in local storage
             var districtData = localStorage.getItem('district');
-
+            $('.subdistrict').html('<option value="" disabled selected>Pilih Kecamatan</option>');
             if (districtData) {
                 // Data exists in local storage, parse and use it
                 var district = JSON.parse(districtData);
@@ -270,7 +287,7 @@
                     // Save to local storage
                     localStorage.setItem('district', JSON.stringify(response));
                     //option select district
-                    let option = '';
+                    let option = '<option value="" disabled selected>Pilih Kecamatan</option>';
                     response.forEach(function (data) {
                         option += `<option value="${data.id}">${data.name}</option>`;
                     });
@@ -298,8 +315,53 @@
             });
         });
 
+        $('.village').change(function () {
+            let subdistrict = $(this).val();
+            let village = $('.village option:selected').val();
+            getData(subdistrict, village);
+        });
+        $('.reset').click(function () {
+            getData();
+            //reset select
+            $('.subdistrict').val('');
+            $('.village').val('');
+            //reset radio
+            $('#customCheck1').prop('checked', false);
+            $('#kecamtan_radio').prop('checked', false);
+        });
+
         $('#export').click(function () {
-            window.location.href = "{{route('voters.pdf')}}?subdistrict=" + $('.subdistrict').val() + "&village=" + $('.village').val();
+            let subdistrict = $('.subdistrict').find('option:selected').val();
+            let village = $('.village').find('option:selected').val();
+            let type = $('input[name="type"]:checked').val();
+
+            // Check if any value is undefined and replace it with null
+            if (typeof subdistrict === 'undefined') {
+                subdistrict = null;
+            }
+            if (typeof village === 'undefined') {
+                village = null;
+            }
+            if (typeof type === 'undefined') {
+                type = null;
+            }
+
+            let url = "{{ route('voters.pdf') }}" + "?subdistrict=" + subdistrict + "&village=" + village + "&type=" + type;
+
+            formAjax({}, url, 'post')
+                .then(function (response) {
+                    // Handle success
+                    window.open(response.url, '_blank');
+                })
+                .catch(function (error) {
+                    // Handle errors if any
+                    //swet alert
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Data tidak ditemukan!",
+                        icon: "error"
+                    });
+                });
         });
     </script>
 @endpush

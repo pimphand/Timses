@@ -52,7 +52,7 @@
                                     <form action="#" method="post" class="row" enctype="multipart/form-data">
                                         <div class="col-md-6">
                                             <input class="required" type="text" name="name" id="name"
-                                                   placeholder="Name">
+                                                   placeholder="Masukan Nama lengkap">
                                             <span class="text-danger " id="error-name"></span>
                                         </div>
                                         <div class="col-md-6">
@@ -74,6 +74,12 @@
                                             </select>
                                             <div class="text-danger" id="error-village_id"></div>
                                         </div>
+                                        <div class="col-md-12  mt-3">
+                                            <input class="required" type="text" name="name" id="name"
+                                                   oninput="validateNumber(this)" pattern="\d{1,16}"
+                                                   placeholder="Masukan nomor telepon">
+                                            <span class="text-danger " id="error-name"></span>
+                                        </div>
                                         <div class="col-md-12 mt-3">
                                             <label class="custom-file">
                                                 <input type="file" id="identity_card" name="identity_card">
@@ -82,8 +88,6 @@
                                             <div class="text-danger" id="error-identity_card"></div>
                                             <img id="show_identity_card" width="50%">
                                         </div>
-
-
                                         <div class="col-md-12 mt-3">
                                             <button type="submit" class="dgBtn">Kirim</button>
                                             <div class="con_message"></div>

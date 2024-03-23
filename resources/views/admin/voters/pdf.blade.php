@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Expense Report</title>
+    <title>Report | {{env('APP_NAME')}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style type="text/css">
         .table_tr1 {
@@ -19,6 +20,7 @@
         }
     </style>
 </head>
+
 <body style="min-width: 100%; min-height: 100%; overflow: hidden; alignment-adjust: central;">
 <br/>
 <div style="width: 100%; border-bottom: 2px solid black;">
@@ -26,14 +28,11 @@
         <tr>
 
             <td style="width: 35px;">
-                <img style="width: 50px;height: 50px"
-                     src="{{asset('images')}}/frontend/logo.png" alt="" class="img-circle"/>
+                <img style="width: 150px" src="{{public_path('images')}}/frontend/logo.png" alt="" class="img-circle"/>
             </td>
             <td>
                 <p style="margin-left: 10px; font: 14px lighter;">Aplikasi Manajemen Data Kampanye</p>
             </td>
-
-
         </tr>
     </table>
 </div>
@@ -65,10 +64,7 @@
                     <td>{{ $no }}</td>
                     <td>{{ $report->name }}</td>
                     <td>
-                        <img
-                            src="{{ asset($report->identity_card) }}"
-                            width="150px"
-                            height="110"/> <br>
+                        <img src="{{ public_path($report->identity_card) }}" width="150px"/> <br>
                         No KTP: {{ $report->nik }}
                     </td>
                     <td>
@@ -90,4 +86,5 @@
     </table>
 </div>
 </body>
+
 </html>
