@@ -51,7 +51,7 @@
                             <div class="contact_form">
                                 <form action="#" method="post" class="row" enctype="multipart/form-data">
                                     <div class="col-md-6">
-                                        <input class="required" type="text" name="fullname"
+                                        <input class="required" type="text" name="name"
                                             placeholder="Masukan Nama lengkap">
                                         <span class="text-danger " id="error-name"></span>
                                     </div>

@@ -24,7 +24,7 @@ class FrontendController extends Controller
     public function storeRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'fullname' => 'required|max:255',
+            'name' => 'required|max:255',
             'nik' => 'required|integer|unique:voters,nik|digits:16',
             'kk' => 'nullable|integer|unique:voters,kk|digits:16',
             'tps' => 'nullable',
@@ -75,7 +75,6 @@ class FrontendController extends Controller
             $validator->validated(),
             [
                 'identity_card' => $imageUrl,
-                'name' => $request->fullname,
             ]
         ));
 
