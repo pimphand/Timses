@@ -57,8 +57,8 @@ class FrontendController extends Controller
         if ($request->hasFile('identity_card')) {
             $file = $request->file('identity_card');
             $img = Image::make($file);
-            if (Image::make($file)->width() > 720) {
-                $img->resize(720, null, function ($constraint) {
+            if (Image::make($file)->width() > 1440) {
+                $img->resize(1440, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
