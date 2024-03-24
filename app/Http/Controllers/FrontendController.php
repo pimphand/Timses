@@ -6,6 +6,7 @@ use App\Models\News;
 use App\Models\Setting;
 use App\Models\Voter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -55,18 +56,24 @@ class FrontendController extends Controller
         }
 
         if ($request->hasFile('identity_card')) {
-            $file = $request->file('identity_card');
-            $img = Image::make($file);
-            if (Image::make($file)->width() > 1440) {
+            $image = $request->file('identity_card');
+
+            // Menggunakan Intervention Image untuk memproses gambar
+            $img = Image::make($image);
+
+            // Memeriksa apakah lebar gambar lebih dari 1440 piksel
+            if ($img->width() > 1440) {
+                // Mengubah ukuran gambar dengan mempertahankan rasio aspek
                 $img->resize(1440, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
 
-            $image = $request->file('identity_card');
+            // Menyimpan gambar ke penyimpanan
             $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->move(storage_path('images/voter'), $imageName);
-            $imageUrl = 'images/voter/'.$imageName;
+            $path = 'images/voter/'.$imageName;
+            Storage::put($path, (string) $img->encode());
+            $imageUrl = $path;
         } else {
             $imageUrl = null;
         }
