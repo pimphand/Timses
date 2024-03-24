@@ -86,7 +86,7 @@
                                 <th>Nama</th>
                                 <th>Kecamatan</th>
                                 <th>Kelurahan</th>
-                                <th>Action</th>
+                                {{--                                <th>Action</th>--}}
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -150,7 +150,7 @@
                         {data: 'name', name: 'name'},
                         {data: 'district.name', name: 'district.name'},
                         {data: 'village.name', name: 'village.name'},
-                        {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'},
+                        // {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'},
                     ]
                 });
                 //delete data
