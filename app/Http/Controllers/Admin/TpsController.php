@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\District;
 use App\Models\Tps;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravolt\Indonesia\Models\Village;
 
@@ -18,14 +18,7 @@ class TpsController extends Controller
     {
         if (request()->ajax()) {
             if (request()->has('show')) {
-                $districts = DB::table('indonesia_districts')
-                    ->where('indonesia_districts.city_code', 3202)
-                    ->join('tps', 'indonesia_districts.id', '=', 'tps.district_id')
-                    ->select('indonesia_districts.id', 'indonesia_districts.name', DB::raw('count(tps.id) as tps_count'))
-                    ->groupBy('indonesia_districts.id')
-                    ->get();
-
-                return $districts;
+                return District::where('indonesia_districts.city_code', 3202)->withCount('tps')->get();
 
             }
             if (request()->has('datatable')) {
