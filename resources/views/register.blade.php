@@ -53,7 +53,7 @@
                                         <div class="col-md-6">
                                             <input class="required" type="text" name="fullname"
                                                    placeholder="Masukan Nama lengkap">
-                                            <span class="text-danger " id="error-name"></span>
+                                            <span class="text-danger " id="error-fullname"></span>
                                         </div>
                                         <div class="col-md-6">
                                             <input class="required" type="text" name="nik" id="nik"
