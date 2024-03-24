@@ -18,24 +18,7 @@
                             <h4 class="fs-16"></h4>
                             <p class="mb-2">Kecamatan</p>
                             <p id="_district"></p>
-                            <div style="min-height: 412px;">
-                                <div class="collapse collapse-horizontal" id="collapseWidthExample">
-                                    <div class="card card-body mb-0" style="width: 100%;">
-                                        <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
-                                            <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Nama</th>
-                                                <th>Kecamatan</th>
-                                                <th>Kelurahan</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+
 
                         </div> <!-- end card-->
                     </div> <!-- end col-->
@@ -87,6 +70,34 @@
                 </div> <!-- end modal content-->
             </div> <!-- end modal dialog-->
         </div>
+        <div class="modal fade" id="show-tps" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kecamatan <span id="nama_kecamatan"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div> <!-- end modal header -->
+                    <div class="modal-body">
+                        <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nama</th>
+                                <th>Kecamatan</th>
+                                <th>Kelurahan</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div> <!-- end modal footer -->
+                </div> <!-- end modal content-->
+            </div> <!-- end modal dialog-->
+        </div>
     </div>
 @endsection
 
@@ -102,11 +113,10 @@
                     response.forEach(function (data) {
                         //append to select
                         $('#_district').append(`
-                        <button class="btn btn-primary mb-2" type="button" id="_show_datatable" data-bs-toggle="collapse"
+                        <button class="btn btn-primary mb-2" type="button" id="_show_datatable"
                                         data-district_id="${data.district_id}"
-                                        data-village_id="${data.village_id}"
-                                        data-bs-target="#collapseWidthExample" aria-expanded="false"
-                                        aria-controls="collapseWidthExample">
+                                        data-village_id="${data.village_id}" data-nama="${data.kecamatan}"
+                        >
                                  Kecamatan : ${data.kecamatan} (total tps : ${data.total_tps})
                         </button>
                     `);
@@ -120,7 +130,8 @@
             $("#_district").on('click', '#_show_datatable', function () {
                 let district = $(this).data('district_id');
                 let village = $(this).data('village_id');
-
+                $('#nama_kecamatan').text($(this).data('nama'));
+                $('#show-tps').modal('show');
                 datatable(district, village);
             });
 
