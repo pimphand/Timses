@@ -159,7 +159,7 @@
                 response.data.data_3.misi.forEach(function (item) {
                     $('#misi').append(`<div class="col-lg-4 col-md-6 mt-2">
                         <div class="iconbox02 clearfix serviceItem01">
-                            <p>
+                            <p class="text-justify">
                                 ${item}
                             </p>
                         </div>
