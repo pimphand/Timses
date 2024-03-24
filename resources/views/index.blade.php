@@ -39,8 +39,9 @@
                             </div>
                             <div class="col-lg-5">
                                 <div class="tw-stretch-element-inside-column">
-                                    <div class="abImg move_anim">
-                                        <img src="{{asset('frontend')}}/images/home1/3.png" id="photo_1" alt="">
+                                    <div class="move_anim">
+                                        <img src="{{asset('')}}/images/paslon/17110925561.png" id="photo_1" width="50%"
+                                             alt="">
                                     </div>
                                 </div>
                             </div>
@@ -58,8 +59,9 @@
                             <div class="col-lg-5 move_anim">
                                 <div class="tw-stretch-element-inside-column"
                                      style="margin-left: 0px; margin-right: -270px;">
-                                    <div class="abImg move_anim">
-                                        <img src="{{asset('frontend')}}/images/home1/3.png" id="photo_2" alt="">
+                                    <div class="move_anim">
+                                        <img src="{{asset('frontend')}}/images/home1/3.png" id="photo_2" width="50%"
+                                             alt="">
                                     </div>
                                 </div>
                             </div>
@@ -70,9 +72,9 @@
         </div>
     </section>
     <!-- Work Process Start -->
-    <section class="wordProcessSection02 mt-4" id="visimisi">
-        <div class="SecLayerimg move_anim">
-            <img src="{{asset('frontend')}}/images/bg/s21.png" alt="">
+    <section class="aboutSection01 mt-4" id="visimisi">
+        <div class="SecLayerimg">
+            <img src="{{asset('frontend')}}/images/bg/2.png" alt="">
         </div>
         <div class="container">
             <div class="row">
@@ -156,7 +158,7 @@
                 $('#visi').html(response.data.data_3.visi)
                 response.data.data_3.misi.forEach(function (item) {
                     $('#misi').append(`<div class="col-lg-4 col-md-6 mt-2">
-                        <div class="iconbox02 clearfix">
+                        <div class="iconbox02 clearfix serviceItem01">
                             <p>
                                 ${item}
                             </p>
@@ -170,6 +172,8 @@
                 $('#prestasi').html('')
                 //photo_1
                 $('#photo_1').attr('src', `{{asset('')}}${response.data.data_2.photo_1}`)
+                //width="50%" photo_1
+
                 response.data.data_2.prestasi.forEach(function (item) {
                     $('#prestasi').append(`
                     <div class="single_skill" data-parcent="">

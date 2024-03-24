@@ -37,6 +37,14 @@
             #_nav_relawan {
                 display: block; /* Tampilkan ketika layar hp */
             }
+
+            #photo_1 {
+                display: none;
+            }
+
+            #photo_2 {
+                display: none;
+            }
         }
     </style>
     @stack('css')
