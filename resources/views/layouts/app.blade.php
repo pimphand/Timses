@@ -106,7 +106,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="copyright">
-                    <p>Copyright 2024, All Right Reserved</p>
+                    <p>Copyright
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>
+                        , {{env('APP_NAME')}}</p>
                     <ul>
                         <li><a href="{{route('register')}}">Daftar Relawan</a></li>
                     </ul>

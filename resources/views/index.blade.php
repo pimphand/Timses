@@ -47,7 +47,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item" id="_data_paslon_2" style="display: none">
                         <div class="row">
                             <div class="col-lg-7 animated">
                                 <h2 class="secTitle" id="nama_wakil"></h2>
@@ -180,7 +180,9 @@
                        <p> <i class="dgita-check"></i> ${item}</p>
                     </div>`)
                 })
-
+                if (response.data.data_2.wakil_biodata !== null) {
+                    $('#_data_paslon_2').show()
+                }
                 $('#nama_wakil').html(response.data.data_2.wakil_biodata)
                 $('#biodata_wakil').html(response.data.data_2.wakil_biodata)
                 $('#prestasi_wakil').html('')
@@ -205,7 +207,7 @@
         }
 
         $('.carousel').carousel({
-            interval: 4000
+            interval: 3000
         })
     </script>
 @endpush
