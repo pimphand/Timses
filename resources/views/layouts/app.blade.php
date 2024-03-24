@@ -39,6 +39,7 @@
             }
         }
     </style>
+    @stack('css')
 </head>
 <body>
 <!-- Preloading -->

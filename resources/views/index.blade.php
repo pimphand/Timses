@@ -24,288 +24,53 @@
 
     <!-- Hero Banner End -->
     <section class="slider_01" id="profile">
-        <div class="rev_slider_wrapper">
-            <div id="rev_slider_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.1">
-                <ul>
-                    <li data-index="rs-3045" data-transition="random-premium" data-slotamount="default"
-                        data-hideafterloop="0" data-hideslideonmobile="off" data-easein="Power3.easeInOut"
-                        data-easeout="Power3.easeInOut" data-masterspeed="1000" data-thumb="" data-rotate="0"
-                        data-saveperformance="off" data-title="" data-param1="" data-param2="" data-param3=""
-                        data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9=""
-                        data-param10="" data-description="">
-                        <img src="{{asset('frontend')}}/images/slider/s1.jpg" alt="dgita"
-                             data-bgposition="center center"
-                             data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="0" class="rev-slidebg"
-                             data-no-retina>
-                        <div class="tp-caption rs-parallaxlevel-1 d-md-none d-sm-none d-xs-none d-lg-block"
-
-                             data-frames='[{"delay":1200,"speed":1000,"frame":"0","from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"power2.out"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"power3.inOut"}]'
-
-                             data-type="image"
-                             data-x="center"
-                             data-y="center"
-                             data-hoffset="['0','0','0','0']"
-                             data-voffset="['0','0','0','0']"
-                             data-width="['100%']"
-                             data-height="['auto']"
-
-                             data-visibility="['on', 'on', 'off', 'off']"
-
-                        ><img src="{{asset('frontend')}}/images/slider/layer.png" alt="Layer"></div>
-                        <div class="tp-caption ws_nowrap"
-                             data-x="['left', 'left', 'center', 'center']"
-                             data-hoffset="['0']"
-
-                             data-y="['middle']"
-
-                             data-fontsize="['20','20','20','20']"
-                             data-fontweight="400"
-                             data-lineheight="['26','26','26','26']"
-                             data-letterspacing=".62"
-                             data-width="[100%]"
-                             data-height="['auto']"
-                             data-whitesapce="['normal']"
-                             data-color="['#03030f']"
-
-                             data-type="text"
-                             data-responsive_offset="on"
-
-                             data-frames='[{"delay":1400,"speed":400,"frame":"0","from":"x:-50px;opacity:0;","to":"o:1;","ease":"power3.inOut"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"power3.inOut"}]'
-
-                             data-textAlign="['left', 'left', 'center', 'center']"
-                             data-paddingtop="[0,0,0,0]"
-                             data-paddingright="[0,0,50,20]"
-                             data-paddingbottom="[0,0,0,0]"
-                             data-paddingleft="[0,50,50,20]"
-
-                        ><h2 class="secTitle" id="nama_lengkap">Nama Lengkap</h2>
-                            <br>
-                            <p class="biodata" id="biodata" style="width: 40%">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.Lorem ipsum dolor
-                                sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                                dolore magna aliqua. Ut enim ad minim veniam.
-                            </p>
-
-                            <div id="prestasi">
-                                <div class="single_skill" data-parcent="">
-                                    <p>Prestasi atau jabatan</p>
+        <div class="SecLayerimg move_anim2">
+            <img src="{{asset('frontend')}}/images/bg/s1.png" alt="">
+        </div>
+        <div class="container">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-lg-7 animated mt-5">
+                                <h2 class="secTitle animated" id="nama_lengkap"></h2>
+                                <p class="secDesc animated" id="biodata"></p>
+                                <ul class="listItem animated" id="prestasi"></ul>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="tw-stretch-element-inside-column">
+                                    <div class="abImg move_anim">
+                                        <img src="{{asset('frontend')}}/images/home1/3.png" id="photo_1" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tp-caption headFont ws_nowrap"
-                             data-x="['left', 'left', 'center', 'center']"
-                             data-hoffset="['0', '0', '0', '0']"
-
-                             data-y="['middle']"
-                             data-voffset="['-12','-12','0','20']"
-
-                             data-fontsize="['75','55','65','45']"
-                             data-fontweight="700"
-                             data-lineheight="['85','65','75','55']"
-                             data-width="['640','550','100%','100%']"
-                             data-height="['auto']"
-                             data-whitesapce="['normal']"
-                             data-color="['#03030f']"
-
-                             data-type="text"
-                             data-responsive_offset="off"
-
-                             data-frames='[{"delay":1700,"speed":600,"frame":"0","from":"x:-50px;opacity:0;","to":"o:1;","ease":"power3.inOut"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"power3.inOut"}]'
-
-                             data-textAlign="['left', 'left', 'center', 'center']"
-                             data-paddingtop="[0,0,0,0]"
-                             data-paddingright="[0,0,50,20]"
-                             data-paddingbottom="[0,0,0,0]"
-                             data-paddingleft="[0,50,50,20]"
-
-                        >
-                        </div>
-                        <div class="tp-caption ws_nowrap"
-                             data-x="['left', 'left', 'center', 'center']"
-                             data-hoffset="['0', '0', '0', '0']"
-
-                             data-y="['middle']"
-                             data-voffset="['205','190','205','180']"
-
-                             data-fontsize="['17']"
-                             data-fontweight="500"
-                             data-lineheight="['67']"
-                             data-width="['100%']"
-                             data-height="['auto']"
-                             data-whitesapce="['normal']"
-                             data-color="['#03030f']"
-
-                             data-type="text"
-                             data-responsive_offset="off"
-
-                             data-frames='[{"delay":2100,"speed":600,"frame":"0","from":"x:-50px;opacity:0;","to":"o:1;","ease":"power3.inOut"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"power3.inOut"}]'
-
-                             data-textAlign="['left', 'left', 'center', 'center']"
-                             data-paddingtop="[0,0,0,0]"
-                             data-paddingright="[0,0,50,20]"
-                             data-paddingbottom="[0,0,0,0]"
-                             data-paddingleft="[0,50,50,20]"
-
-                        >
-                        </div>
-                        <div class="layer tp-caption rs-parallaxlevel-1 d-md-none d-sm-none d-xs-none d-lg-block"
-
-                             data-frames='[{"delay":2500,"speed":600,"frame":"0","from":"y:50px;opacity:0;","to":"o:1;","ease":"power3.inOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"power3.inOut"}]'
-
-                             data-type="image"
-                             data-x="right"
-                             data-y="center"
-                             data-hoffset="['-200','0','0','0']"
-                             data-voffset="['50','0','0','0']"
-                             data-width="['662','450','100','100']"
-                             data-height="['auto']"
-
-                             data-visibility="['on', 'on', 'off', 'off']"
-
-                        ><img src="{{asset('frontend')}}/images/home1/layer.png" id="photo_1" alt="Layer"></div>
-                    </li>
-                    <li data-index="rs-3046" data-transition="random-premium" data-slotamount="default"
-                        data-hideafterloop="0" data-hideslideonmobile="off" data-easein="Power3.easeInOut"
-                        data-easeout="Power3.easeInOut" data-masterspeed="1000" data-thumb="" data-rotate="0"
-                        data-saveperformance="off" data-title="" data-param1="" data-param2="" data-param3=""
-                        data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9=""
-                        data-param10="" data-description="">
-                        <img src="{{asset('frontend')}}/images/slider/s1.jpg" alt="dgita"
-                             data-bgposition="center center"
-                             data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="0" class="rev-slidebg"
-                             data-no-retina>
-                        <div class="tp-caption rs-parallaxlevel-1 d-md-none d-sm-none d-xs-none d-lg-block"
-
-                             data-frames='[{"delay":1200,"speed":1000,"frame":"0","from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"power2.out"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"power3.inOut"}]'
-
-                             data-type="image"
-                             data-x="center"
-                             data-y="center"
-                             data-hoffset="['0','0','0','0']"
-                             data-voffset="['0','0','0','0']"
-                             data-width="['100%']"
-                             data-height="['auto']"
-
-                             data-visibility="['on', 'on', 'off', 'off']"
-
-                        ><img src="{{asset('frontend')}}/images/slider/layer.png" alt="Layer"></div>
-                        <div class="tp-caption ws_nowrap"
-                             data-x="['left', 'left', 'center', 'center']"
-                             data-hoffset="['0']"
-
-                             data-y="['middle']"
-
-                             data-fontsize="['20','20','20','20']"
-                             data-fontweight="400"
-                             data-lineheight="['26','26','26','26']"
-                             data-letterspacing=".62"
-                             data-width="[100%]"
-                             data-height="['auto']"
-                             data-whitesapce="['normal']"
-                             data-color="['#03030f']"
-
-                             data-type="text"
-                             data-responsive_offset="on"
-
-                             data-frames='[{"delay":1400,"speed":400,"frame":"0","from":"x:-50px;opacity:0;","to":"o:1;","ease":"power3.inOut"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"power3.inOut"}]'
-
-                             data-textAlign="['left', 'left', 'center', 'center']"
-                             data-paddingtop="[0,0,0,0]"
-                             data-paddingright="[0,0,50,20]"
-                             data-paddingbottom="[0,0,0,0]"
-                             data-paddingleft="[0,50,50,20]"
-
-                        ><h2 class="secTitle" id="nama_wakil">Nama Lengkap 2</h2>
-                            <br>
-                            <p class="biodata" id="biodata_wakil" style="width: 40%">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                            </p>
-
-                            <div id="prestasi_wakil">
-                                <div class="single_skill" data-parcent="">
-                                    <p>Prestasi atau jabatan</p>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-lg-7 animated">
+                                <h2 class="secTitle" id="nama_wakil"></h2>
+                                <p class="secDesc" id="biodata_wakil">
+                                </p>
+                                <ul class="listItem animated" id="prestasi_wakil">
+                                </ul>
+                            </div>
+                            <div class="col-lg-5 move_anim">
+                                <div class="tw-stretch-element-inside-column"
+                                     style="margin-left: 0px; margin-right: -270px;">
+                                    <div class="abImg move_anim">
+                                        <img src="{{asset('frontend')}}/images/home1/3.png" id="photo_2" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tp-caption headFont ws_nowrap"
-                             data-x="['left', 'left', 'center', 'center']"
-                             data-hoffset="['0', '0', '0', '0']"
-
-                             data-y="['middle']"
-                             data-voffset="['-180','-150','-150','-120']"
-                             data-fontsize="['20','20','20','20']"
-                             data-fontweight="400"
-                             data-lineheight="['26','26','26','26']"
-                             data-letterspacing=".62"
-                             data-width="[100%]"
-                             data-height="['auto']"
-                             data-whitesapce="['normal']"
-                             data-color="['#03030f']"
-
-                             data-type="text"
-                             data-responsive_offset="off"
-
-                             data-frames='[{"delay":1700,"speed":600,"frame":"0","from":"x:-50px;opacity:0;","to":"o:1;","ease":"power3.inOut"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"power3.inOut"}]'
-
-                             data-textAlign="['left', 'left', 'center', 'center']"
-                             data-paddingtop="[0,0,0,0]"
-                             data-paddingright="[0,0,50,20]"
-                             data-paddingbottom="[0,0,0,0]"
-                             data-paddingleft="[0,50,50,20]"
-
-                        >
-                        </div>
-                        <div class="tp-caption ws_nowrap"
-                             data-x="['left', 'left', 'center', 'center']"
-                             data-hoffset="['0', '0', '0', '0']"
-
-                             data-y="['middle']"
-
-                             data-fontsize="['17']"
-                             data-fontweight="500"
-                             data-lineheight="['67']"
-                             data-width="['100%']"
-                             data-height="['auto']"
-                             data-whitesapce="['normal']"
-                             data-color="['#03030f']"
-
-                             data-type="text"
-                             data-responsive_offset="off"
-
-                             data-frames='[{"delay":2100,"speed":600,"frame":"0","from":"x:-50px;opacity:0;","to":"o:1;","ease":"power3.inOut"},{"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"power3.inOut"}]'
-
-                             data-textAlign="['left', 'left', 'center', 'center']"
-                             data-paddingtop="[0,0,0,0]"
-                             data-paddingright="[0,0,50,20]"
-                             data-paddingbottom="[0,0,0,0]"
-                             data-paddingleft="[0,50,50,20]"
-
-                        >
-                        </div>
-                        <div class="layer tp-caption rs-parallaxlevel-1 d-md-none d-sm-none d-xs-none d-lg-block"
-
-                             data-frames='[{"delay":2500,"speed":600,"frame":"0","from":"y:50px;opacity:0;","to":"o:1;","ease":"power3.inOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"power3.inOut"}]'
-
-                             data-type="image"
-                             data-x="right"
-                             data-y="center"
-                             data-hoffset="['-200','0','0','0']"
-                             data-voffset="['50','0','0','0']"
-                             data-width="['662','450','100','100']"
-                             data-height="['auto']"
-
-                             data-visibility="['on', 'on', 'off', 'off']"
-
-                        ><img src="{{asset('frontend')}}/images/home1/layer.png" id="photo_2" alt="Layer"></div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
     <!-- Work Process Start -->
-    <section class="wordProcessSection02" id="visimisi">
+    <section class="wordProcessSection02 mt-4" id="visimisi">
         <div class="SecLayerimg move_anim">
             <img src="{{asset('frontend')}}/images/bg/s21.png" alt="">
         </div>
@@ -408,7 +173,7 @@
                 response.data.data_2.prestasi.forEach(function (item) {
                     $('#prestasi').append(`
                     <div class="single_skill" data-parcent="">
-                       <p>${item}</p>
+                       <p> <i class="dgita-check"></i> ${item}</p>
                     </div>`)
                 })
 
@@ -420,7 +185,7 @@
                 response.data.data_2.wakil_prestasi.forEach(function (item) {
                     $('#prestasi_wakil').append(`
                     <div class="single_skill" data-parcent="">
-                       <p>${item}</p>
+                       <p><i class="dgita-check"></i> ${item}</p>
                     </div>`)
                 })
             }
@@ -434,5 +199,70 @@
             }
             return text;
         }
+
+        $('.carousel').carousel({
+            interval: 4000
+        })
     </script>
+@endpush
+
+@push('css')
+    <style>
+        .slider-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .slider-item {
+            position: relative;
+        }
+
+        .slider-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .slider-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .secTitle {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .biodata {
+            font-size: 1rem;
+        }
+
+        .prestasi .single_skill {
+            /* Your styles */
+        }
+
+        /* Media Query for Mobile */
+        @media (max-width: 768px) {
+            .slider-content {
+                width: 90%;
+                max-width: 300px; /* Or adjust according to your design */
+                padding: 10px;
+            }
+
+            .secTitle {
+                font-size: 1.2rem;
+            }
+
+            .biodata {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 @endpush
