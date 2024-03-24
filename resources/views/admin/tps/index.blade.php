@@ -17,7 +17,7 @@
                         <div class="mb-4">
                             <h4 class="fs-16"></h4>
                             <p class="mb-2">Kecamatan</p>
-                            <p id="_district"></p>
+                            <p id="_button"></p>
 
 
                         </div> <!-- end card-->
@@ -107,17 +107,17 @@
             showData();
 
             function showData() {
-                $('#_district').html('');
+                $('#_button').html('');
                 formAjax({}, "{{route('tps.index')}}?show=1", 'get',).then(function (response) {
                     //each data
                     response.forEach(function (data) {
                         //append to select
-                        $('#_district').append(`
+                        $('#_button').append(`
                         <button class="btn btn-primary mb-2" type="button" id="_show_datatable"
-                                        data-district_id="${data.district_id}"
-                                        data-village_id="${data.village_id}" data-nama="${data.kecamatan}"
+                                        data-district_id="${data.id}"
+                                        data-village_id="${data.village_id}" data-nama="${data.name}"
                         >
-                                 Kecamatan : ${data.kecamatan} (total tps : ${data.total_tps})
+                                 Kecamatan : ${data.name} (total tps : ${data.tps_count})
                         </button>
                     `);
                     });
@@ -127,7 +127,7 @@
                 });
             }
 
-            $("#_district").on('click', '#_show_datatable', function () {
+            $("#_button").on('click', '#_show_datatable', function () {
                 let district = $(this).data('district_id');
                 let village = $(this).data('village_id');
                 $('#nama_kecamatan').text($(this).data('nama'));

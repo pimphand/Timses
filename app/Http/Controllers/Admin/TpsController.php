@@ -18,23 +18,18 @@ class TpsController extends Controller
     {
         if (request()->ajax()) {
             if (request()->has('show')) {
-                return Tps::with(['district', 'village'])
-                    ->select('district_id', 'village_id', DB::raw('count(*) as total_tps'))
-                    ->groupBy('district_id', 'village_id')
-                    ->get()
-                    ->map(function ($tps) {
-                        return [
-                            'kecamatan' => $tps->district->name,
-                            'total_tps' => $tps->total_tps,
-                            'district_id' => $tps->district->id,
-                            'village_id' => $tps->village->id,
-                            'desa' => $tps->village->name,
-                        ];
-                    });
+                $districts = DB::table('indonesia_districts')
+                    ->join('indonesia_villages', 'indonesia_districts.code', '=', 'indonesia_villages.district_code')
+                    ->join(DB::raw('(SELECT village_id, COUNT(id) as tps_count FROM tps GROUP BY village_id) as tps'), 'indonesia_villages.id', '=', 'tps.village_id')
+                    ->select('indonesia_districts.*', 'indonesia_villages.id as village_id', 'indonesia_villages.name as village_name', 'tps.tps_count')
+                    ->groupBy('indonesia_districts.id', 'indonesia_villages.id', 'indonesia_villages.name', 'tps.tps_count')
+                    ->get();
+
+                return $districts;
 
             }
             if (request()->has('datatable')) {
-                return datatables()->of(Tps::where('district_id', request()->district)->where('village_id', request()->village)->with(['district', 'village'])->latest()->get())
+                return datatables()->of(Tps::where('district_id', request()->district)->with(['district', 'village'])->latest()->get())
                     ->addColumn('action', function ($data) {
                         $button = '<button type="button" name="edit" data-id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
                         $button .= '&nbsp;&nbsp;';
