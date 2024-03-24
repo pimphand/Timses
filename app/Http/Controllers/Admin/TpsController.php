@@ -19,10 +19,10 @@ class TpsController extends Controller
         if (request()->ajax()) {
             if (request()->has('show')) {
                 $districts = DB::table('indonesia_districts')
-                    ->join('indonesia_villages', 'indonesia_districts.code', '=', 'indonesia_villages.district_code')
-                    ->join(DB::raw('(SELECT village_id, COUNT(id) as tps_count FROM tps GROUP BY village_id) as tps'), 'indonesia_villages.id', '=', 'tps.village_id')
-                    ->select('indonesia_districts.*', 'indonesia_villages.id as village_id', 'indonesia_villages.name as village_name', 'tps.tps_count')
-                    ->groupBy('indonesia_districts.id', 'indonesia_villages.id', 'indonesia_villages.name', 'tps.tps_count')
+                    ->where('indonesia_districts.city_code', 3202)
+                    ->join('tps', 'indonesia_districts.id', '=', 'tps.district_id')
+                    ->select('indonesia_districts.id', 'indonesia_districts.name', DB::raw('count(tps.id) as tps_count'))
+                    ->groupBy('indonesia_districts.id')
                     ->get();
 
                 return $districts;

@@ -16,7 +16,6 @@
                     <div class="col-xl-12 mb-3">
                         <div class="mb-4">
                             <h4 class="fs-16"></h4>
-                            <p class="mb-2">Kecamatan</p>
                             <p id="_button"></p>
 
 
