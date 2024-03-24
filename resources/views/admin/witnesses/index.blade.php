@@ -26,7 +26,7 @@
                                 <option value="" disabled>Pilih Kecamatan</option>
                             </select>
                             <select class="form-control village">
-                                <option value="" disabled>Pilih Kecamatan</option>
+                                <option value="" disabled selected>Pilih Kecamatan</option>
                             </select>
                             <button class="btn btn-info" id="export">Export</button>
                         </div>
@@ -43,9 +43,8 @@
                         <th>Id</th>
                         <th>Nama</th>
                         <th>Username</th>
-                        <th>Email</th>
                         <th>TPS</th>
-                        <th>No HP</th>
+                        <th>Token</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -200,11 +199,6 @@
                     {data: 'name', name: 'name'},
                     {data: 'username', name: 'username'},
                     {
-                        data: 'email', name: 'email', render: function (data) {
-                            return data ?? '-';
-                        }
-                    },
-                    {
                         data: 'tps.name', name: 'tps.name', render: function (data) {
                             return data ?? '-';
                         }
@@ -353,10 +347,10 @@
 
         $('.subdistrict').change(function () {
             let district_id = $(this).val();
-            $('.village').html('<option value="" disabled>Pilih Kelurahan/Desa</option>');
+            $('.village').html('');
             formAjax({}, "{{route('get.village')}}?district_id=" + district_id, 'get',).then(function (response) {
 
-                let option = '';
+                let option = '<option value="" disabled selected>Pilih Kelurahan/Desa</option>';
                 response.forEach(function (data) {
                     option += `<option value="${data.id}">${data.name}</option>`;
                 });

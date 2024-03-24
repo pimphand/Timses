@@ -1,139 +1,135 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<div class="row">
-    <div class="row g-4">
-        <div class="col-12">
-            <div class="mb-4">
-                <div class="d-flex justify-content-between mb-3">
-                    <h4 class="card-title
+    <div class="row">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between mb-3">
+                        <h4 class="card-title
                         ">Relawan</h4>
-                    <button class="btn btn-primary" id="create" data-bs-toggle="modal">
-                        Tambah Relawan
-                    </button>
-                </div>
-                <div class="row">
-                    <div class="mb-2 col-md-8">
-                        <div class="input-group">
-                            <button class="btn btn-danger reset">Reset</button>
-                            <select class="form-control subdistrict">
-                                <option value="" disabled>Pilih Kecamatan</option>
-                            </select>
-                            <select class="form-control village">
-                                <option value="" disabled>Pilih Kecamatan</option>
-                            </select>
-                            <button class="btn btn-info" id="export">Export PDF</button>
+                        <button class="btn btn-primary" id="create" data-bs-toggle="modal">
+                            Tambah Relawan
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="mb-2 col-md-8">
+                            <div class="input-group">
+                                <button class="btn btn-danger reset">Reset</button>
+                                <select class="form-control subdistrict">
+                                    <option value="" disabled>Pilih Kecamatan</option>
+                                </select>
+                                <select class="form-control village">
+                                    <option value="" disabled>Pilih Kecamatan</option>
+                                </select>
+                                <button class="btn btn-info" id="export">Export PDF</button>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-radio">
+                                <input type="radio" class="form-check-input" value="semua" name="type"
+                                       id="customCheck1">
+                                <label class="form-check-label" for="customCheck1">Export Semua</label>
+                            </div>
+                            <div class="form-radio">
+                                <input type="radio" class="form-check-input" value="kecamatan" name="type"
+                                       id="kecamtan_radio">
+                                <label class="form-check-label" for="kecamtan_radio">Export Kecamatan</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="form-radio">
-                            <input type="radio" class="form-check-input" value="semua" name="type" id="customCheck1">
-                            <label class="form-check-label" for="customCheck1">Export Semua</label>
-                        </div>
-                        <div class="form-radio">
-                            <input type="radio" class="form-check-input" value="kecamatan" name="type"
-                                id="kecamtan_radio">
-                            <label class="form-check-label" for="kecamtan_radio">Export Kecamatan</label>
-                        </div>
-                    </div>
-                </div>
-                <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
-                    <thead>
+                    <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
+                        <thead>
                         <tr>
                             <th>Id</th>
                             <th>Nama</th>
                             <th>Nik</th>
-                            <th>TPS</th>
                             <th>Kecamatan</th>
                             <th>Kelurahan/Desa</th>
                             <th>No HP</th>
                             <th>KTP</th>
                             <th>Action</th>
                         </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
 
-            </div> <!-- end card -->
-        </div><!-- end col-->
-    </div> <!-- end row-->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div> <!-- end modal header -->
-                <form action="{{route('volunteers.store')}}" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        <div class="row g-2">
-                            <div class="mb-2 col-md-6">
-                                <label for="inputEmail4" class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control" name="name" id="name"
-                                    placeholder="Masukan nama lengkap" required>
-                            </div>
-                            <div class="mb-2 col-md-6">
-                                <label for="inputPassword4" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik"
-                                    oninput="validateNumber(this)" pattern="\d{1,16}" required
-                                    placeholder="Masukkan NIK">
-                            </div>
-                            <div class="mb-2 col-md-6">
-                                <label for="inputPassword4" class="form-label">TPS</label>
-                                <input type="text" class="form-control" id="tps" name="tps" readonly
-                                    placeholder="masukan TPS">
-                            </div>
-                            <div class="mb-2 col-md-6">
-                                <label for="inputPassword4" class="form-label">Nomor HP</label>
-                                <input type="text" class="form-control" id="phone" name="phone"
-                                    placeholder="masukan nomor telepon">
-                            </div>
-                            <div class="mb-2 col-md-6">
-                                <label for="inputPassword4" class="form-label">Provinsi</label>
-                                <input type="text" class="form-control" id="province" name="province" readonly
-                                    placeholder="TPS" value="Jawa Barat">
-                            </div>
-                            <div class="mb-2 col-md-6">
-                                <label for="inputPassword4" class="form-label">Kota/Kabupaten</label>
-                                <input type="text" class="form-control" id="city" name="city" readonly placeholder="TPS"
-                                    value="Kabupaten Sukabumi">
-                            </div>
-                            <div class="mb-2 col-md-6">
-                                <label for="inputPassword4" class="form-label">Kecamatan</label>
-                                <select type="text" class="form-control subdistrict" id="subdistrict"
-                                    name="subdistrict">
-                                    <option value="" disabled>Pilih Kecamatan</option>
-                                </select>
-                            </div>
-                            <div class="mb-2 col-md-6">
-                                <label for="inputPassword4" class="form-label">Kelurahan/Desa</label>
-                                <select type="text" class="form-control village" id="village" name="village_id">
-                                    <option value="" disabled>Pilih Kelurahan/Desa</option>
-                                </select>
-                            </div>
-                            <div class="mb-2 col-md-12">
-                                <label for="inputPassword4" class="form-label">KTP</label>
-                                <input type="file" class="form-control" id="identity_card" name="identity_card"
-                                    placeholder="TPS" value="Kabupaten Sukabumi">
+                </div> <!-- end card -->
+            </div><!-- end col-->
+        </div> <!-- end row-->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div> <!-- end modal header -->
+                    <form action="{{route('volunteers.store')}}" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="row g-2">
+                                <div class="mb-2 col-md-6">
+                                    <label for="inputEmail4" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" name="name" id="name"
+                                           placeholder="Masukan nama lengkap" required>
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    <label for="inputPassword4" class="form-label">NIK</label>
+                                    <input type="text" class="form-control" id="nik" name="nik"
+                                           oninput="validateNumber(this)" pattern="\d{1,16}" required
+                                           placeholder="Masukkan NIK">
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    <label for="inputPassword4" class="form-label">Nomor HP</label>
+                                    <input type="text" class="form-control" id="phone" name="phone"
+                                           placeholder="masukan nomor telepon">
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    <label for="inputPassword4" class="form-label">Provinsi</label>
+                                    <input type="text" class="form-control" id="province" name="province" readonly
+                                           value="Jawa Barat">
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    <label for="inputPassword4" class="form-label">Kota/Kabupaten</label>
+                                    <input type="text" class="form-control" id="city" name="city" readonly
+                                           placeholder="TPS"
+                                           value="Kabupaten Sukabumi">
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    <label for="inputPassword4" class="form-label">Kecamatan</label>
+                                    <select type="text" class="form-control subdistrict" id="subdistrict"
+                                            name="subdistrict">
+                                        <option value="" disabled>Pilih Kecamatan</option>
+                                    </select>
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    <label for="inputPassword4" class="form-label">Kelurahan/Desa</label>
+                                    <select type="text" class="form-control village" id="village" name="village_id">
+                                        <option value="" disabled>Pilih Kelurahan/Desa</option>
+                                    </select>
+                                </div>
+                                <div class="mb-2 col-md-12">
+                                    <label for="inputPassword4" class="form-label">KTP</label>
+                                    <input type="file" class="form-control" id="identity_card" name="identity_card"
+                                           placeholder="TPS" value="Kabupaten Sukabumi">
+                                </div>
+                                <div id="_ktp"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary" id="save">Simpan</button>
-                    </div> <!-- end modal footer -->
-                </form>
-            </div> <!-- end modal content-->
-        </div> <!-- end modal dialog-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary" id="save">Simpan</button>
+                        </div> <!-- end modal footer -->
+                    </form>
+                </div> <!-- end modal content-->
+            </div> <!-- end modal dialog-->
+        </div>
     </div>
-</div>
 @endsection
 
 @push('js')
-<script>
-    getData();
-
+    <script>
+        getData();
 
         function getData(subdistrict = '', village = '') {
             let dataTable = $('#datatable').DataTable({
@@ -150,11 +146,6 @@
                     },
                     {data: 'name', name: 'name'},
                     {data: 'nik', name: 'nik'},
-                    {
-                        data: 'tps', name: 'tps', render: function (data) {
-                            return data ?? '-';
-                        }
-                    },
                     {data: 'village.district.name', name: 'village.district.name'},
                     {data: 'village.name', name: 'village.name'},
                     {
@@ -210,10 +201,17 @@
                 //get data dataTable
                 let data = dataTable.row($(this).parents('tr')).data();
                 //set data to form
-                $('#staticBackdropLabel').text('Edit Pemilih');
+                $('#staticBackdropLabel').text('Edit Relawan');
                 $('form').attr('action', `voters/${data.id}`);
-
+                $('#name').val(data.name);
+                $('#nik').val(data.nik);
+                $('#tps').val(data.tps);
+                $('#phone').val(data.phone);
+                $('#subdistrict').val(data.village.district_id);
+                $('#subdistrict').append(`<option value="${data.village.district.id}" selected>${data.village.district.name}</option>`);
+                $('#village').append(`<option value="${data.village.id}" selected>${data.village.name}</option>`);
                 $('#save').text('Update');
+                $('#_ktp').html(`<img src="{{route('file.show')}}?images=${data.identity_card}" class="img-thumbnail" width="400">`);
                 //add method put
                 $('form').append('<input type="hidden" name="_method" value="put">');
                 $('#staticBackdrop').modal('show');
@@ -224,8 +222,9 @@
         }
 
         $(document).on('click', '#create', function () {
-            $('#staticBackdropLabel').text('Tambah Pemilih');
-            $('form').attr('action', `voters`);
+            $('#staticBackdropLabel').text('Tambah Relawan');
+            $('form').attr('action', `
+                voters`);
             $('#name').val('');
             $('#nik').val('');
             $('#save').text('Simpan');
@@ -255,15 +254,40 @@
                 //remove previous feedback
                 $('.invalid-feedback').remove();
             }).catch(function (error) {
-                console.log(error)
-                $.each(error.responseJSON.errors, function (name, message) {
-                    $(`#${name}`).addClass('is-invalid');
-                    //remove previous feedback
-                    $(`#${name}`).closest('.col-md-6').find('.invalid-feedback').remove();
-                    $(`#${name}`).closest('.col-md-6').append(`<div class="invalid-feedback">${message}</div>`);
-                });
-            });
-        });
+                    console.log(error)
+                    $.each(error.responseJSON.errors, function (name, message) {
+                        $(`
+                        #
+                        $
+                        {
+                            name
+                        }
+                        `).addClass('is-invalid');
+                        //remove previous feedback
+                        $(`
+                        #
+                        $
+                        {
+                            name
+                        }
+                        `).closest('.col-md-6').find('.invalid-feedback').remove();
+                        $(`
+                        #
+                        $
+                        {
+                            name
+                        }
+                        `).closest('.col-md-6').append(` < div
+
+                class
+
+                = "invalid-feedback" >${message} < /div>`);
+                    });
+                }
+            )
+            ;
+        })
+        ;
         getDistrict()
 
         function getDistrict() {
@@ -372,5 +396,5 @@
                     });
                 });
         });
-</script>
+    </script>
 @endpush
