@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::view('login', 'auth.login');
 
 Route::get('province', [\App\Http\Controllers\IndonesianTerritoryController::class, 'province'])->name('get.province');
@@ -52,3 +52,4 @@ Route::get('/semua-berita', [\App\Http\Controllers\FrontendController::class, 'n
 Route::get('/detail-berita/{slug}', [\App\Http\Controllers\FrontendController::class, 'detail'])->name('news-detail');
 Route::get('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'register']);
 Route::post('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'storeRegister'])->name('register');
+Route::get('/download/{qrcode}', [\App\Http\Controllers\FrontendController::class, 'downloadQrCode'])->name('downloadQrCode');

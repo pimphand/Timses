@@ -26,4 +26,9 @@ class Voter extends Model
     {
         return $this->village->district->name;
     }
+
+    public function downline()
+    {
+        return $this->hasMany('App\Models\Voter', 'downline', 'id');
+    }
 }

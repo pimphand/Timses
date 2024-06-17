@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Voter;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class VoterController extends Controller
@@ -24,12 +25,20 @@ class VoterController extends Controller
                     if (request()->village) {
                         $query->where('village_id', request()->village);
                     }
+                    if (request()->downline == "true") {
+                        $query->whereHas('downline');
+                    }
                 })
+                ->withCount('downline')
                 ->latest()->get())
                 ->addColumn('action', function ($data) {
-                    $button = '<button type="button" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" name="delete" data-id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+                    $button .= '<button type="button" name="info" data-id="' . $data->id . '" class="info btn btn-info btn-sm">Info</button>';
+                    $button .= '&nbsp;&nbsp;';
+                    $button .= '<button type="button" name="QrCode" data-id="' . $data->id . '" class="QrCode btn btn-warning btn-sm">Download QrCode</button>';
+                    $button .= '&nbsp;&nbsp;';
+                    $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
 
                     return $button;
                 })
@@ -72,9 +81,9 @@ class VoterController extends Controller
 
         if ($request->hasFile('identity_card')) {
             $image = $request->file('identity_card');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(storage_path('images/voter'), $imageName);
-            $imageUrl = 'images/voter/'.$imageName;
+            $imageUrl = 'images/voter/' . $imageName;
         } else {
             $imageUrl = null;
         }
@@ -100,8 +109,26 @@ class VoterController extends Controller
      */
     public function edit(Voter $voter)
     {
-        //send email
+        // check if voter qr code exists
+        if (!Storage::exists("qrcode/$voter->id.png")) {
+            return response()->json(['url' => asset("qrcode/$voter->id.png")]);
+        }
 
+        $url_register = route('register');
+        $url = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" . $url_register . "?$voter->id";
+
+        // Nama file untuk menyimpan gambar
+        $saveTo = "qrcode/$voter->id.png";
+
+        if (!Storage::exists('public/qrcode')) {
+            Storage::makeDirectory('public/qrcode');
+        }
+
+        // Download the QR code image and save it to the file
+        file_put_contents(public_path("storage/$saveTo"), file_get_contents($url));
+
+        // Mengembalikan nama file
+        return response()->json(['url' => asset("qrcode/$voter->id.png")]);
     }
 
     /**
@@ -111,8 +138,8 @@ class VoterController extends Controller
     {
         $validated = Validator::make($request->all(), [
             'name' => 'required',
-            'nik' => 'required|integer|digits:16|unique:voters,nik,'.$voter->id,
-            'kk' => 'nullable|integer|digits:16|unique:voters,kk,'.$voter->id,
+            'nik' => 'required|integer|digits:16|unique:voters,nik,' . $voter->id,
+            'kk' => 'nullable|integer|digits:16|unique:voters,kk,' . $voter->id,
             'tps' => 'nullable',
             'address' => 'nullable',
             'province' => 'required',
@@ -132,9 +159,9 @@ class VoterController extends Controller
                 unlink(storage_path($voter->identity_card));
             }
             $image = $request->file('identity_card');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(storage_path('images/voter'), $imageName);
-            $imageUrl = 'images/voter/'.$imageName;
+            $imageUrl = 'images/voter/' . $imageName;
         } else {
             $imageUrl = $voter->identity_card;
         }
@@ -183,27 +210,27 @@ class VoterController extends Controller
 
         // Buat symlink jika belum ada
         try {
-            if (! file_exists($destinationFolder)) {
+            if (!file_exists($destinationFolder)) {
                 symlink($sourceFolder, $destinationFolder);
                 \Log::info('Symlink created successfully');
             }
         } catch (\Exception $e) {
-            \Log::error('Error creating symlink: '.$e->getMessage());
+            \Log::error('Error creating symlink: ' . $e->getMessage());
         }
 
         // Debugging: Check if images exist in source folder
         $files = glob("$sourceFolder/*");
-        \Log::info('Files in source folder: '.print_r($files, true));
+        \Log::info('Files in source folder: ' . print_r($files, true));
 
         $pdf = Pdf::loadView('admin.voters.pdf', compact('ambildata', 'type'));
         $pdf->set_option('isRemoteEnabled', true);
 
         // Generate unique filename
-        $filename = 'saksi_'.uniqid().'.pdf';
+        $filename = 'saksi_' . uniqid() . '.pdf';
 
         // Save PDF to public folder
         //save to tmp folder
-        $pdf->save(public_path('pdfs/'.$filename));
+        $pdf->save(public_path('pdfs/' . $filename));
 
         // Remove symlink
         if (is_link($destinationFolder)) {
@@ -211,10 +238,10 @@ class VoterController extends Controller
                 unlink($destinationFolder);
                 \Log::info('Symlink removed successfully');
             } catch (\Exception $e) {
-                \Log::error('Error removing symlink: '.$e->getMessage());
+                \Log::error('Error removing symlink: ' . $e->getMessage());
             }
         }
 
-        return response()->json(['success' => true, 'url' => asset('pdfs/'.$filename)]);
+        return response()->json(['success' => true, 'url' => asset('pdfs/' . $filename)]);
     }
 }

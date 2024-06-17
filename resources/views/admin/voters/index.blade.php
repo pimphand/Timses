@@ -1,45 +1,48 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="mb-4">
-                    <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title
+<div class="row">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="mb-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <h4 class="card-title
                         ">Relawan</h4>
-                        <button class="btn btn-primary" id="create" data-bs-toggle="modal">
-                            Tambah Relawan
-                        </button>
-                    </div>
-                    <div class="row">
-                        <div class="mb-2 col-md-8">
-                            <div class="input-group">
-                                <button class="btn btn-danger reset">Reset</button>
-                                <select class="form-control subdistrict">
-                                    <option value="" disabled>Pilih Kecamatan</option>
-                                </select>
-                                <select class="form-control village">
-                                    <option value="" disabled>Pilih Kecamatan</option>
-                                </select>
-                                <button class="btn btn-info" id="export">Export PDF</button>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-radio">
-                                <input type="radio" class="form-check-input" value="semua" name="type"
-                                       id="customCheck1">
-                                <label class="form-check-label" for="customCheck1">Export Semua</label>
-                            </div>
-                            <div class="form-radio">
-                                <input type="radio" class="form-check-input" value="kecamatan" name="type"
-                                       id="kecamtan_radio">
-                                <label class="form-check-label" for="kecamtan_radio">Export Kecamatan</label>
-                            </div>
+                    <button class="btn btn-primary" id="create" data-bs-toggle="modal">
+                        Tambah Relawan
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="mb-2 col-md-8">
+                        <div class="input-group">
+                            <button class="btn btn-danger reset">Reset</button>
+                            <select class="form-control subdistrict">
+                                <option value="" disabled>Pilih Kecamatan</option>
+                            </select>
+                            <select class="form-control village">
+                                <option value="" disabled>Pilih Kecamatan</option>
+                            </select>
+                            <button class="btn btn-info" id="export">Export PDF</button>
                         </div>
                     </div>
-                    <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
-                        <thead>
+                    <div class="col-4">
+                        <div class="form-radio">
+                            <input type="radio" class="form-check-input" value="semua" name="type" id="customCheck1">
+                            <label class="form-check-label" for="customCheck1">Export Semua</label>
+                        </div>
+                        <div class="form-radio">
+                            <input type="radio" class="form-check-input" value="kecamatan" name="type"
+                                id="kecamtan_radio">
+                            <label class="form-check-label" for="kecamtan_radio">Export Kecamatan</label>
+                        </div>
+                        <div class="form-radio mt-3">
+                            <input type="checkbox" class="form-check-input" value="1" name="downline" id="downline">
+                            <label class="form-check-label" for="downline">Filter Downline</label>
+                        </div>
+                    </div>
+                </div>
+                <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
+                    <thead>
                         <tr>
                             <th>Id</th>
                             <th>Nama</th>
@@ -50,101 +53,122 @@
                             <th>KTP</th>
                             <th>Action</th>
                         </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    </thead>
+                    <tbody></tbody>
+                </table>
 
-                </div> <!-- end card -->
-            </div><!-- end col-->
-        </div> <!-- end row-->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-             aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div> <!-- end modal header -->
-                    <form action="{{route('volunteers.store')}}" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            <div class="row g-2">
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputEmail4" class="form-label">Nama Lengkap</label>
-                                    <input type="text" class="form-control" name="name" id="name"
-                                           placeholder="Masukan nama lengkap" required>
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">NIK</label>
-                                    <input type="text" class="form-control" id="nik" name="nik"
-                                           oninput="validateNumber(this)" pattern="\d{1,16}" required
-                                           placeholder="Masukkan NIK">
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Nomor HP</label>
-                                    <input type="text" class="form-control" id="phone" name="phone"
-                                           placeholder="masukan nomor telepon">
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Provinsi</label>
-                                    <input type="text" class="form-control" id="province" name="province" readonly
-                                           value="Jawa Barat">
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Kota/Kabupaten</label>
-                                    <input type="text" class="form-control" id="city" name="city" readonly
-                                           placeholder="TPS"
-                                           value="Kabupaten Sukabumi">
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Kecamatan</label>
-                                    <select type="text" class="form-control subdistrict" id="subdistrict"
-                                            name="subdistrict">
-                                        <option value="" disabled>Pilih Kecamatan</option>
-                                    </select>
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                    <label for="inputPassword4" class="form-label">Kelurahan/Desa</label>
-                                    <select type="text" class="form-control village" id="village" name="village_id">
-                                        <option value="" disabled>Pilih Kelurahan/Desa</option>
-                                    </select>
-                                </div>
-                                <div class="mb-2 col-md-12">
-                                    <label for="inputPassword4" class="form-label">KTP</label>
-                                    <input type="file" class="form-control" id="identity_card" name="identity_card"
-                                           placeholder="TPS" value="Kabupaten Sukabumi">
-                                </div>
-                                <div id="_ktp"></div>
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div> <!-- end row-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> <!-- end modal header -->
+                <form action="{{route('volunteers.store')}}" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-2">
+                            <div class="mb-2 col-md-6">
+                                <label for="inputEmail4" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" name="name" id="name"
+                                    placeholder="Masukan nama lengkap" required>
                             </div>
+                            <div class="mb-2 col-md-6">
+                                <label for="inputPassword4" class="form-label">NIK</label>
+                                <input type="text" class="form-control" id="nik" name="nik"
+                                    oninput="validateNumber(this)" pattern="\d{1,16}" required
+                                    placeholder="Masukkan NIK">
+                            </div>
+                            <div class="mb-2 col-md-6">
+                                <label for="inputPassword4" class="form-label">Nomor HP</label>
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    placeholder="masukan nomor telepon">
+                            </div>
+                            <div class="mb-2 col-md-6">
+                                <label for="inputPassword4" class="form-label">Provinsi</label>
+                                <input type="text" class="form-control" id="province" name="province" readonly
+                                    value="Jawa Barat">
+                            </div>
+                            <div class="mb-2 col-md-6">
+                                <label for="inputPassword4" class="form-label">Kota/Kabupaten</label>
+                                <input type="text" class="form-control" id="city" name="city" readonly placeholder="TPS"
+                                    value="Kabupaten Sukabumi">
+                            </div>
+                            <div class="mb-2 col-md-6">
+                                <label for="inputPassword4" class="form-label">Kecamatan</label>
+                                <select type="text" class="form-control subdistrict" id="subdistrict"
+                                    name="subdistrict">
+                                    <option value="" disabled>Pilih Kecamatan</option>
+                                </select>
+                            </div>
+                            <div class="mb-2 col-md-6">
+                                <label for="inputPassword4" class="form-label">Kelurahan/Desa</label>
+                                <select type="text" class="form-control village" id="village" name="village_id">
+                                    <option value="" disabled>Pilih Kelurahan/Desa</option>
+                                </select>
+                            </div>
+                            <div class="mb-2 col-md-12">
+                                <label for="inputPassword4" class="form-label">KTP</label>
+                                <input type="file" class="form-control" id="identity_card" name="identity_card"
+                                    placeholder="TPS" value="Kabupaten Sukabumi">
+                            </div>
+                            <div id="_ktp"></div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary" id="save">Simpan</button>
-                        </div> <!-- end modal footer -->
-                    </form>
-                </div> <!-- end modal content-->
-            </div> <!-- end modal dialog-->
-        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary" id="save">Simpan</button>
+                    </div> <!-- end modal footer -->
+                </form>
+            </div> <!-- end modal content-->
+        </div> <!-- end modal dialog-->
     </div>
+    <div class="modal fade" id="showQrcode" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> <!-- end modal header -->
+                <img src="" id="qr_code" class="img-thumbnail" width="100%">
+
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-secondary" id="download" target="_blank">downlod</a>
+                </div> <!-- end modal footer -->
+            </div> <!-- end modal content-->
+        </div> <!-- end modal dialog-->
+    </div>
+</div>
 @endsection
 
 @push('js')
-    <script>
+<script>
+    getData();
+    $("#downline").click(function () {
         getData();
-
+    });
         function getData(subdistrict = '', village = '') {
             let dataTable = $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
                 destroy: true,
-                ajax: '{{ route('voters.index') }}?subdistrict=' + subdistrict + '&village=' + village,
+                ajax: '{{ route('voters.index') }}?subdistrict=' + subdistrict + '&village=' + village + '&downline=' + $('input[name="downline"]').is(':checked'),
                 columns: [
                     {
                         data: 'created_at', name: 'created_at', render: function (data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
                         },
                     },
-                    {data: 'name', name: 'name'},
+                    {
+                        data: 'name', name: 'name', render: function (data,type,row) {
+                            return row.downline_count >= 1 ? row.name + ` (${row.downline_count} Anggota)` :data  ;
+                        }
+                    },
                     {data: 'nik', name: 'nik'},
                     {data: 'village.district.name', name: 'village.district.name'},
                     {data: 'village.name', name: 'village.name'},
@@ -163,7 +187,15 @@
                         }
                     },
                     {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'},
-                ]
+                ],
+                initComplete: function() {
+                // Add event listener for the select dropdown
+                $('#filterSelect').on('change', function() {
+                    dataTable.ajax.reload(); // Reload the table data based on the selected filter
+                    });
+                },
+                info: true,
+                searching: true,
             });
             //delete data
             $(document).on('click', '.delete', function () {
@@ -196,6 +228,27 @@
                 });
             });
 
+            $(document).on('click', '.QrCode', function () {
+                let id = $(this).data('id');
+                let url = "{{ route('voters.edit', ':id') }}";
+                url = url.replace(':id', id);
+
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    success: function (response) {
+                        $('#qr_code').attr('src', response.url);
+                        $('#showQrcode').modal('show');
+                        //a href download
+                        $('#download').attr('href', response.url);
+                    }
+                });
+            })
+
+            $('#download').on('click', function (e) {
+                e.preventDefault();
+                window.open($(this).attr('href'), '_blank');
+            });
             //edit data
             $(document).on('click', '.edit', function () {
                 //get data dataTable
@@ -396,5 +449,7 @@
                     });
                 });
         });
-    </script>
+
+
+</script>
 @endpush

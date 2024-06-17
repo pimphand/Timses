@@ -64,18 +64,21 @@ class FrontendController extends Controller
             }
 
             $image = $request->file('identity_card');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(storage_path('images/voter'), $imageName);
-            $imageUrl = 'images/voter/'.$imageName;
+            $imageUrl = 'images/voter/' . $imageName;
         } else {
             $imageUrl = null;
         }
+
+        $downline = Voter::where('id', $request->downline)->first();
 
         $voter = Voter::create(array_merge(
             $validator->validated(),
             [
                 'identity_card' => $imageUrl,
                 'name' => $request->fullname,
+                'downline' => $downline ? $downline->id : null,
             ]
         ));
 
@@ -108,5 +111,9 @@ class FrontendController extends Controller
         $news = News::where('slug', $slug)->first();
 
         return view('news-details', compact('news'));
+    }
+
+    public function downloadQrCode()
+    {
     }
 }
