@@ -1,192 +1,187 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="bg-flower">
-                <img src="{{asset('assets')}}/images/flowers/img-3.png">
-            </div>
+<div class="row">
+    <div class="col-12">
+        <div class="bg-flower">
+            <img src="{{asset('assets')}}/images/flowers/img-3.png">
+        </div>
 
-            <div class="bg-flower-2">
-                <img src="{{asset('assets')}}/images/flowers/img-1.png">
-            </div>
+        <div class="bg-flower-2">
+            <img src="{{asset('assets')}}/images/flowers/img-1.png">
+        </div>
 
-            <div class="page-title-box">
-                <h4 class="page-title">Data Website</h4>
-            </div>
+        <div class="page-title-box">
+            <h4 class="page-title">Data Website</h4>
         </div>
     </div>
-    <div class="row g-4">
-        <div class="mb-4">
-            <form action="{{route('settings.store')}}" enctype="multipart/form-data">
-                <div class="row">
-                    <h4>Data 1</h4>
-                    <div class="col-6">
-                        <div class="mb-3">
-                            <label for="simpleinput" class="form-label">Slogan/Jargon</label>
-                            <input type="text" id="jargon" name="data1[jargon]" value=""
-                                   class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="simpleinput" class="form-label">Program Kerja</label>
-                            <div class="input-group">
-                                <input class="form-control" id="inputGroupSelect04" placeholder="Masukan Program Kerja"
-                                       name="data1[program_kerja][]"
-                                       aria-label="Example with button addon">
-                                <button class="btn btn-outline-secondary _add_program_kerja" type="button"
-                                        id="_add_program_kerja">+
-                                </button>
-                            </div>
-                            <div id="_input_program_kerja"></div>
-                        </div>
+</div>
+<div class="row g-4">
+    <div class="mb-4">
+        <form action="{{route('settings.store')}}" enctype="multipart/form-data">
+            <div class="row">
+                <h4>Data 1</h4>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="simpleinput" class="form-label">Slogan/Jargon</label>
+                        <input type="text" id="jargon" name="data1[jargon]" value="" class="form-control">
                     </div>
-                    <div class="col-6">
-                        <img src="{{asset('images/frontend/banner.png')}}" width="100%">
+
+                    <div class="mb-3">
+                        <label for="simpleinput" class="form-label">Program Kerja</label>
+                        <div class="input-group">
+                            <input class="form-control" id="inputGroupSelect04" placeholder="Masukan Program Kerja"
+                                name="data1[program_kerja][]" aria-label="Example with button addon">
+                            <button class="btn btn-outline-secondary _add_program_kerja" type="button"
+                                id="_add_program_kerja">+
+                            </button>
+                        </div>
+                        <div id="_input_program_kerja"></div>
                     </div>
                 </div>
-                <div class="row">
-                    <h4>Data 2</h4>
-                    <div class="col-xl-6">
-                        <div class="mb-4">
-                            <div class="accordion" id="accordionExample">
+                <div class="col-6">
+                    <img src="{{asset('images/frontend/banner.png')}}" width="100%">
+                </div>
+            </div>
+            <div class="row">
+                <h4>Data 2</h4>
+                <div class="col-xl-6">
+                    <div class="mb-4">
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button fw-medium collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                                        aria-controls="collapseOne">
+                                        Calon Bupati
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample" style="">
+                                    <div class="accordion-body">
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label for="simpleinput" class="form-label">Nama Lengkap</label>
+                                                <input type="text" id="jargon" name="data2[nama]" value=""
+                                                    class="form-control">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="simpleinput" class="form-label">Biodata</label>
+                                                <textarea type="text" id="jargon" name="data2[biodata]"
+                                                    class="form-control"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="simpleinput" class="form-label">Foto</label>
+                                                <input type="file" id="photo_1" name="data2[photo_1]" value=""
+                                                    class="form-control">
+                                            </div>
+                                            <div id="show_foto_1"></div>
+
+                                            <div class="mb-3">
+                                                <label for="simpleinput" class="form-label">Prestasi/Jabatan</label>
+                                                <div class="input-group">
+                                                    <input class="form-control" id="inputGroupSelect04"
+                                                        placeholder="Masukan Program Kerja" name="data2[prestasi][]"
+                                                        aria-label="Example with button addon">
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        id="_add_prestasi">+
+                                                    </button>
+                                                </div>
+                                                <div id="_input_prestasi"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingOne">
+                                    <h2 class="accordion-header" id="headingTwo">
                                         <button class="accordion-button fw-medium collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                aria-expanded="false" aria-controls="collapseOne">
-                                            Calon Bupati
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                            aria-expanded="false" aria-controls="collapseTwo">
+                                            Calon Wakil Bupati
                                         </button>
                                     </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse"
-                                         aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                        aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
                                             <div class="col-12">
                                                 <div class="mb-3">
                                                     <label for="simpleinput" class="form-label">Nama Lengkap</label>
-                                                    <input type="text" id="jargon" name="data2[nama]" value=""
-                                                           class="form-control">
+                                                    <input type="text" id="jargon" name="data2[wakil_nama]" value=""
+                                                        class="form-control">
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label for="simpleinput" class="form-label">Biodata</label>
-                                                    <textarea type="text" id="jargon" name="data2[biodata]"
-                                                              class="form-control"></textarea>
+                                                    <textarea type="text" id="jargon" name="data2[wakil_biodata]"
+                                                        class="form-control"></textarea>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="simpleinput" class="form-label">Foto</label>
-                                                    <input type="file" id="photo_1" name="data2[photo_1]" value=""
-                                                           class="form-control">
+                                                    <input type="file" id="photo_2" name="data2[photo_2]" value=""
+                                                        class="form-control">
                                                 </div>
-                                                <div id="show_foto_1"></div>
+                                                <div id="show_foto_2"></div>
 
                                                 <div class="mb-3">
                                                     <label for="simpleinput" class="form-label">Prestasi/Jabatan</label>
                                                     <div class="input-group">
                                                         <input class="form-control" id="inputGroupSelect04"
-                                                               placeholder="Masukan Program Kerja"
-                                                               name="data2[prestasi][]"
-                                                               aria-label="Example with button addon">
+                                                            placeholder="Masukan Program Kerja"
+                                                            name="data2[wakil_prestasi][]"
+                                                            aria-label="Example with button addon">
                                                         <button class="btn btn-outline-secondary" type="button"
-                                                                id="_add_prestasi">+
+                                                            id="_add_wakil_prestasi">+
                                                         </button>
                                                     </div>
-                                                    <div id="_input_prestasi"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingTwo">
-                                            <button class="accordion-button fw-medium collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                                    aria-expanded="false" aria-controls="collapseTwo">
-                                                Calon Wakil Bupati
-                                            </button>
-                                        </h2>
-                                        <div id="collapseTwo" class="accordion-collapse collapse"
-                                             aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <div class="col-12">
-                                                    <div class="mb-3">
-                                                        <label for="simpleinput" class="form-label">Nama Lengkap</label>
-                                                        <input type="text" id="jargon" name="data2[wakil_nama]" value=""
-                                                               class="form-control">
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="simpleinput" class="form-label">Biodata</label>
-                                                        <textarea type="text" id="jargon" name="data2[wakil_biodata]"
-                                                                  class="form-control"></textarea>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="simpleinput" class="form-label">Foto</label>
-                                                        <input type="file" id="photo_2" name="data2[photo_2]" value=""
-                                                               class="form-control">
-                                                    </div>
-                                                    <div id="show_foto_2"></div>
-
-                                                    <div class="mb-3">
-                                                        <label for="simpleinput"
-                                                               class="form-label">Prestasi/Jabatan</label>
-                                                        <div class="input-group">
-                                                            <input class="form-control" id="inputGroupSelect04"
-                                                                   placeholder="Masukan Program Kerja"
-                                                                   name="data2[wakil_prestasi][]"
-                                                                   aria-label="Example with button addon">
-                                                            <button class="btn btn-outline-secondary" type="button"
-                                                                    id="_add_wakil_prestasi">+
-                                                            </button>
-                                                        </div>
-                                                        <div id="_input_wakil_prestasi"></div>
-                                                    </div>
+                                                    <div id="_input_wakil_prestasi"></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div> <!-- end card-->
-                        </div>
-
-                    </div>
-                    <div class="col-6">
-                        <img src="{{asset('images/frontend/calon.png')}}" width="100%">
-                    </div>
-                </div>
-                <div class="row">
-                    <h4>Data 3</h4>
-                    <div class="col-6">
-                        <div class="mb-3">
-                            <label for="simpleinput" class="form-label">Visi</label>
-                            <input type="text" id="jargon" name="data3[visi]" value="" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="simpleinput" class="form-label">Misi</label>
-                            <div class="input-group">
-                                <input class="form-control" id="inputGroupSelect04" placeholder="Masukan Misi"
-                                       name="data3[misi][]"
-                                       aria-label="Example with button addon">
-                                <button class="btn btn-outline-secondary" type="button" id="_add_misi">+
-                                </button>
                             </div>
-                            <div id="_input_misi"></div>
-                        </div>
+
+                        </div> <!-- end card-->
                     </div>
-                    <div class="col-6">
-                        <img src="{{asset('images/frontend/visimisi.png')}}" width="100%">
+
+                </div>
+                <div class="col-6">
+                    <img src="{{asset('images/frontend/calon.png')}}" width="100%">
+                </div>
+            </div>
+            <div class="row">
+                <h4>Data 3</h4>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="simpleinput" class="form-label">Visi</label>
+                        <input type="text" id="jargon" name="data3[visi]" value="" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="simpleinput" class="form-label">Misi</label>
+                        <div class="input-group">
+                            <input class="form-control" id="inputGroupSelect04" placeholder="Masukan Misi"
+                                name="data3[misi][]" aria-label="Example with button addon">
+                            <button class="btn btn-outline-secondary" type="button" id="_add_misi">+
+                            </button>
+                        </div>
+                        <div id="_input_misi"></div>
                     </div>
                 </div>
+                <div class="col-6">
+                    <img src="{{asset('images/frontend/visimisi.png')}}" width="100%">
+                </div>
+            </div>
 
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </form>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </form>
 
-        </div> <!-- end card-->
-    </div> <!-- end col -->
+    </div> <!-- end card-->
+</div> <!-- end col -->
 @endsection
 
 @push('js')
-    <script>
-        //add program kerja
+<script>
+    //add program kerja
         $(document).on('click', '#_add_program_kerja', function () {
             let input = `<div class="input-group mt-2">
                             <input class="form-control" id="inputGroupSelect04" placeholder="Masukan Program Kerja" name="data1[program_kerja][]"
@@ -382,5 +377,5 @@
             }
             reader.readAsDataURL(this.files[0]);
         });
-    </script>
+</script>
 @endpush

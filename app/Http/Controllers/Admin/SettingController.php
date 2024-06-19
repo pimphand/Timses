@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Images;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
@@ -14,16 +15,18 @@ class SettingController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $settings = Setting::all();
-            $data = [];
-            foreach ($settings as $setting) {
-                $data[$setting->name] = $setting->value;
-            }
+            // $settings = Setting::all();
+            // $data = [];
+            // foreach ($settings as $setting) {
+            //     $data[$setting->name] = $setting->value;
+            // }
 
-            return response()->json($data);
+            // return response()->json($data);
+
+            return $this->iori();
         }
 
-        return view('admin.setting.index');
+        return view('admin.setting.iori');
     }
 
     /**
@@ -51,25 +54,24 @@ class SettingController extends Controller
             if ($request->hasFile('data2.photo_1')) {
                 //remove old photo
                 $image = $request->file('data2.photo_1');
-                $imageName = time().'1.'.$image->getClientOriginalExtension();
+                $imageName = time() . '1.' . $image->getClientOriginalExtension();
                 $image->move(public_path('images/paslon'), $imageName);
 
-                $data2['photo_1'] = 'images/paslon/'.$imageName;
+                $data2['photo_1'] = 'images/paslon/' . $imageName;
             } else {
                 $data2['photo_1'] = $data2['old_photo_1'] ?? null;
             }
             if ($request->hasFile('data2.photo_2')) {
                 $image = $request->file('data2.photo_2');
-                $imageName = time().'2.'.$image->getClientOriginalExtension();
+                $imageName = time() . '2.' . $image->getClientOriginalExtension();
                 $image->move(public_path('images/paslon'), $imageName);
 
-                $data2['photo_2'] = 'images/paslon/'.$imageName;
+                $data2['photo_2'] = 'images/paslon/' . $imageName;
             } else {
                 $data2['photo_2'] = $data2['old_photo_2'] ?? null;
             }
 
             Setting::updateOrCreate(['name' => 'data_2'], ['value' => $data2]);
-
         }
 
         if ($data3 = $request->data3) {
@@ -111,5 +113,47 @@ class SettingController extends Controller
     public function destroy(Setting $setting)
     {
         //
+    }
+
+    public function storeIori(Request $request)
+    {
+        if ($request->image) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('photo/'), $imageName);
+            $imageUrl = 'photo/' . $imageName;
+            Images::create([
+                'name' => $image->getClientOriginalName(),
+                'path' => $imageUrl,
+                'type' => 'homepage',
+            ]);
+
+            return response()->json([
+                'message' => 'Image uploaded successfully',
+                'data' => Images::where('type', 'homepage')->get(),
+            ]);
+        }
+    }
+
+    public function destroyIori()
+    {
+        $image = Images::find(request()->id);
+        if ($image) {
+            $image->delete();
+        }
+
+        return response()->json([
+            'message' => 'Image deleted successfully',
+            'data' => Images::where('type', 'homepage')->get(),
+        ]);
+    }
+
+    public function iori()
+    {
+        $homepage = Images::where('type', 'homepage')->get();
+
+        return response()->json([
+            'homepage' => $homepage,
+        ]);
     }
 }

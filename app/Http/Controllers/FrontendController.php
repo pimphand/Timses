@@ -13,7 +13,7 @@ class FrontendController extends Controller
 {
     public function index(Request $request)
     {
-        return view('index');
+        return view('theme.iori.index');
     }
 
     public function register()

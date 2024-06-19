@@ -43,6 +43,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('tps', \App\Http\Controllers\Admin\TpsController::class);
         Route::resource('candidates', \App\Http\Controllers\Admin\CandidateController::class);
         Route::resource('settings', \App\Http\Controllers\Admin\SettingController::class);
+
+        Route::post('iori', [\App\Http\Controllers\Admin\SettingController::class, 'storeIori'])->name('iori.store');
+        Route::delete('iori', [\App\Http\Controllers\Admin\SettingController::class, 'destroyIori'])->name('iori.destroy');
     });
 });
 
