@@ -5,7 +5,7 @@
                 <div class="header-left">
                     <div class="header-logo">
                         <a class="d-flex" href="/">
-                            <img alt="Ecom" src="{{ asset('theme/iori') }}/imgs/template/logo.svg">
+                            <img alt="Ecom" src="{{ asset('images/frontend/logo.png') }}">
                         </a>
                     </div>
                     <div class="header-nav">
