@@ -230,19 +230,11 @@
 
             $(document).on('click', '.QrCode', function () {
                 let id = $(this).data('id');
-                let url = "{{ route('voters.edit', ':id') }}";
-                url = url.replace(':id', id);
+                let url = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=?{{ route("register") }}?relawan='+id
+                $('#qr_code').attr('src', url);
+                $('#showQrcode').modal('show');
+                $('#download').attr('href', url);
 
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    success: function (response) {
-                        $('#qr_code').attr('src', response.url);
-                        $('#showQrcode').modal('show');
-                        //a href download
-                        $('#download').attr('href', response.url);
-                    }
-                });
             })
 
             $('#download').on('click', function (e) {
