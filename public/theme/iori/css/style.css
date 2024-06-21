@@ -2139,7 +2139,7 @@ body {
   background-color: #E0F1F4;
   overflow: hidden;
   position: relative;
-  height: 358px;
+  /* height: 358px; */
   box-shadow: 9px 11px 23px 0px rgba(6, 61, 79, 0.12);
 }
 .card-member-2 .card-image {
@@ -5550,9 +5550,9 @@ footer a {
 }
 
 .img-main-2 {
-  border-radius: 900px;
-  max-width: 100%;
-  width: 100%;
+  /* border-radius: 200px; */
+  /* max-width: 100%; */
+  /* width: 100%; */
 }
 
 .box-images-project {

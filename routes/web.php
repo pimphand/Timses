@@ -53,6 +53,6 @@ Route::get('/', [\App\Http\Controllers\FrontendController::class, 'index']);
 Route::get('/data', [\App\Http\Controllers\FrontendController::class, 'data'])->name('data');
 Route::get('/semua-berita', [\App\Http\Controllers\FrontendController::class, 'news'])->name('all-news');
 Route::get('/detail-berita/{slug}', [\App\Http\Controllers\FrontendController::class, 'detail'])->name('news-detail');
-Route::get('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'register']);
-Route::post('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'storeRegister'])->name('register');
+Route::get('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'register'])->name('register');
+Route::post('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'storeRegister']);
 Route::get('/download/{qrcode}', [\App\Http\Controllers\FrontendController::class, 'downloadQrCode'])->name('downloadQrCode');

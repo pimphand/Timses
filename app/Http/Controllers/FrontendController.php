@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Images;
 use App\Models\News;
 use App\Models\Setting;
 use App\Models\Voter;
@@ -13,12 +14,20 @@ class FrontendController extends Controller
 {
     public function index(Request $request)
     {
-        return view('theme.iori.index');
+        $data = [
+            "images" => Images::all(),
+            "jargon" => Setting::where('name', 'jargon')->first()->value,
+            'visiMisi' => Setting::where('name', 'data_3')->first()->value,
+            'bupati' => Setting::where('name', 'bupati')->first()->value,
+            'wakilbupati' => Setting::where('name', 'wakilbupati')->first()->value,
+            'news' => News::all(),
+        ];
+        return view('theme.iori.index', compact('data'));
     }
 
     public function register()
     {
-        return view('register');
+        return view('theme.iori.register');
     }
 
     public function storeRegister(Request $request)

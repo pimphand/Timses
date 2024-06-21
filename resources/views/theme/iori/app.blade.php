@@ -41,16 +41,9 @@
                 <div class="footer-bottom">
                     <div class="row">
                         <div class="col-lg-6 col-md-12 text-center text-lg-start">
-                            <ul class="menu-bottom">
-                                <li><a class="font-sm color-grey-300" href="term-conditions.html">Privacy policy</a>
-                                </li>
-                                <li><a class="font-sm color-grey-300" href="term-conditions.html">Cookies</a></li>
-                                <li><a class="font-sm color-grey-300" href="term-conditions.html">Terms of service</a>
-                                </li>
-                            </ul>
                         </div>
                         <div class="col-lg-6 col-md-12 text-center text-lg-end"><span
-                                class="color-grey-300 font-md">©Iori Official 2023. All right reversed.</span></div>
+                                class="color-grey-300 font-md">©ASJAPl 2023. All right reversed.</span></div>
                     </div>
                 </div>
             </div>
@@ -79,6 +72,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="{{ asset('theme/iori') }}/js/main.js?v=5.0.0"></script>
     <script src="{{ asset('theme/iori') }}/js/ali-animation.js?v=1.0.0"></script>
+
+    @stack('js')
 </body>
 
 </html>

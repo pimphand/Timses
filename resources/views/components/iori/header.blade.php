@@ -12,17 +12,19 @@
                         <nav class="nav-main-menu d-none d-xl-block">
                             <ul class="main-menu">
                                 <li class="">
-                                    <a class="active" href="/">Home</a>
+                                    <a class="active" href="/" style="color: white">Home</a>
                                 </li>
-                                <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </nav>
-                        <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
-                                class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
+                        <div class="burger-icon burger-icon-white">
+                            <span class="burger-icon-top"></span>
+                            <span class="burger-icon-mid"></span>
+                            <span class="burger-icon-bottom"></span>
+                        </div>
                     </div>
                     <div class="header-right">
                         <div class="d-inline-block box-search-top">
-                            <div class="form-search-top">
+                            {{-- <div class="form-search-top">
                                 <form action="#">
                                     <input class="input-search" type="text" placeholder="Search...">
                                     <button class="btn btn-search">
@@ -33,17 +35,21 @@
                                         </svg>
                                     </button>
                                 </form>
-                            </div><span class="font-lg icon-list search-post">
+                            </div> --}}
+                            {{-- <span class="font-lg icon-list search-post">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                </svg></span>
+                                </svg>
+                            </span> --}}
                         </div>
-                        <div class="d-inline-block box-dropdown-cart"><span class="font-lg icon-list icon-account"><span
-                                    class="font-lg color-grey-900 arrow-down">EN</span></span>
+                        <div class="d-inline-block box-dropdown-cart">
+                            <span class="font-lg icon-list icon-account">
+                                {{-- <span class="font-lg color-grey-900 arrow-down">EN</span> --}}
+                            </span>
                             <div class="dropdown-account">
-                                <ul>
+                                {{-- <ul>
                                     <li><a class="font-md" href="#"><img
                                                 src="{{ asset('theme/iori') }}/imgs/template/icons/en.png" alt="iori">
                                             English</a></li>
@@ -53,12 +59,16 @@
                                     <li><a class="font-md" href="#"><img
                                                 src="{{ asset('theme/iori') }}/imgs/template/icons/cn.png" alt="iori">
                                             Chiness</a></li>
-                                </ul>
+                                </ul> --}}
                             </div>
                         </div>
-                        <div class="d-none d-sm-inline-block"><a class="btn btn-brand-1 hover-up"
-                                href="register.html">Get
-                                Started</a></div>
+                        <div class="d-none d-sm-inline-block">
+                            @if (!request()->is('daftar-relawan'))
+                            <a class="btn btn-brand-1 hover-up" href="{{ route('register') }}">
+                                Daftar Menjadi Relawan
+                            </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,92 +114,10 @@
                                 <nav class="mt-15">
                                     <ul class="mobile-menu font-heading">
                                         <li><a class="active" href="/">Home</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>
-                            <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account">
-                                <nav class="mt-15">
-                                    <ul class="mobile-menu font-heading">
-                                        <li><a class="active" href="login.html">My Profile</a></li>
-                                        <li><a href="#">Work Preferences</a></li>
-                                        <li><a href="#">My Boosted Shots</a></li>
-                                        <li><a href="#">My Collections</a></li>
-                                        <li><a href="#">Account Settings</a></li>
-                                        <li><a href="#">Go Pro</a></li>
-                                        <li><a href="register.html">Sign Out</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            <div class="tab-pane fade" id="tab-notification" role="tabpanel"
-                                aria-labelledby="tab-notification">
-                                <p class="font-sm-bold color-brand-1 mt-30">Today</p>
-                                <div class="notifications-item">
-                                    <div class="item-notify">
-                                        <div class="item-image"><img
-                                                src="{{ asset('theme/iori') }}/imgs/template/user1.png" alt="iori">
-                                        </div>
-                                        <div class="item-info">
-                                            <p class="color-grey-500 font-xs"><strong class="font-xs-bold">Steven
-                                                    Job</strong>like started a poll in your post “How to be a good
-                                                trader in 2023”</p>
-                                        </div>
-                                        <div class="item-time"><span class="color-grey-500 font-xs">Just now</span>
-                                        </div>
-                                    </div>
-                                    <div class="item-notify">
-                                        <div class="item-image"><img
-                                                src="{{ asset('theme/iori') }}/imgs/template/user2.png" alt="iori">
-                                        </div>
-                                        <div class="item-info">
-                                            <p class="color-grey-500 font-xs"><strong class="font-xs-bold">Steven
-                                                    Job</strong>like started a poll in your post “How to be a good
-                                                trader in 2023”</p>
-                                        </div>
-                                        <div class="item-time"><span class="color-grey-500 font-xs">Just now</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="font-sm-bold color-brand-1 mt-30">Yesterday</p>
-                                <div class="notifications-item">
-                                    <div class="item-notify">
-                                        <div class="item-image"><img
-                                                src="{{ asset('theme/iori') }}/imgs/template/user3.png" alt="iori">
-                                        </div>
-                                        <div class="item-info">
-                                            <p class="color-grey-500 font-xs"><strong class="font-xs-bold">Steven
-                                                    Job</strong>like started a poll in your post “How to be a good
-                                                trader in 2023”</p>
-                                        </div>
-                                        <div class="item-time"><span class="color-grey-500 font-xs">Just now</span>
-                                        </div>
-                                    </div>
-                                    <div class="item-notify">
-                                        <div class="item-image"><img
-                                                src="{{ asset('theme/iori') }}/imgs/template/user4.png" alt="iori">
-                                        </div>
-                                        <div class="item-info">
-                                            <p class="color-grey-500 font-xs"><strong class="font-xs-bold">Steven
-                                                    Job</strong>like started a poll in your post “How to be a good
-                                                trader in 2023”</p>
-                                        </div>
-                                        <div class="item-time"><span class="color-grey-500 font-xs">Just now</span>
-                                        </div>
-                                    </div>
-                                    <div class="item-notify">
-                                        <div class="item-image"><img
-                                                src="{{ asset('theme/iori') }}/imgs/template/user5.png" alt="iori">
-                                        </div>
-                                        <div class="item-info">
-                                            <p class="color-grey-500 font-xs"><strong class="font-xs-bold">Steven
-                                                    Job</strong>like started a poll in your post “How to be a good
-                                                trader in 2023”</p>
-                                        </div>
-                                        <div class="item-time"><span class="color-grey-500 font-xs">Just now</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <div class="site-copyright color-grey-400 mt-0">
