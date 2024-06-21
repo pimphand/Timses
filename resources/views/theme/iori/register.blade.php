@@ -72,37 +72,37 @@
                                     value="{{ request()->relawan }}" placeholder="">
                                 <span class="text-danger " id="error-downline"></span>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <input class="form-control" type="text" name="fullname"
                                     placeholder="Masukan Nama lengkap">
                                 <span class="text-danger " id="error-fullname"></span>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <input class="form-control" type="text" name="nik" id="nik"
                                     oninput="validateNumber(this)" pattern="\d{1,16}"
                                     placeholder="Masukan Nomor Induk KTP">
                                 <div class="text-danger" id="error-nik"></div>
                             </div>
-                            <div class="col-md-6 mt-3">
+                            <div class="col-md-6 mb-3">
                                 <select type="number" name="subdistrict" class="form-control form-control"
                                     placeholder="Phone" id="subdistrict">
                                 </select>
                                 <div class="text-danger" id="error-subdistrict"></div>
                             </div>
-                            <div class="col-md-6 mt-3">
+                            <div class="col-md-6 mb-3">
                                 <select type="number" name="village_id" class="form-control form-control"
                                     placeholder="Phone" disabled id="village_id">
                                     <option value="" disabled selected>Pilih Kelurahan/Desa</option>
                                 </select>
                                 <div class="text-danger" id="error-village_id"></div>
                             </div>
-                            <div class="col-md-12  mt-3">
+                            <div class="col-md-12  mb-3">
                                 <input class="form-control" type="text" name="name" id="name"
                                     oninput="validateNumber(this)" pattern="\d{1,16}"
                                     placeholder="Masukan nomor telepon">
                                 <span class="text-danger " id="error-name"></span>
                             </div>
-                            <div class="col-md-12 mt-3">
+                            <div class="col-md-12 mb-3">
                                 <label class="custom-file">
                                     <input type="file" id="identity_card" class="form-control" name="identity_card">
                                     <span class="custom-file-label">Upload KTP</span>
