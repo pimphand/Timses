@@ -118,7 +118,7 @@
                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-6 col-6">
                                 <div class="form-group">
                                     <button class="btn btn-brand-lg btn-full font-md-bold" type="submit">
-                                        Sign up now
+                                        Daftar
                                     </button>
                                 </div>
                             </div>
