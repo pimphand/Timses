@@ -69,7 +69,7 @@
 
                             <div class="col-md-12 mb-3">
                                 <input class="form-control" type="text" name="downline" readonly
-                                    value="{{ request()->downline }}" placeholder="">
+                                    value="{{ request()->relawan }}" placeholder="">
                                 <span class="text-danger " id="error-downline"></span>
                             </div>
                             <div class="col-md-6">
