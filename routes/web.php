@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::post('iori', [\App\Http\Controllers\Admin\SettingController::class, 'storeIori'])->name('iori.store');
         Route::delete('iori', [\App\Http\Controllers\Admin\SettingController::class, 'destroyIori'])->name('iori.destroy');
+
+        Route::get('relawan/{id}', [\App\Http\Controllers\Admin\VoterController::class, 'relawan'])->name('relawan');
     });
 });
 

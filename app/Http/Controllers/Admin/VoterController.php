@@ -32,12 +32,15 @@ class VoterController extends Controller
                 ->withCount('downline')
                 ->latest()->get())
                 ->addColumn('action', function ($data) {
+
                     $button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" name="info" data-id="' . $data->id . '" class="info btn btn-info btn-sm">Info</button>';
-                    $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" name="QrCode" data-id="' . $data->id . '" class="QrCode btn btn-warning btn-sm">Download QrCode</button>';
-                    $button .= '&nbsp;&nbsp;';
+                    if ($data->downline_count > 0) {
+                        $button .= '<a href="' . route('relawan', $data->id) . '" name="info" data-id="' . $data->id . '" class="info btn btn-info btn-sm">Info</a>';
+                        $button .= '&nbsp;&nbsp;';
+                        $button .= '<button type="button" name="QrCode" data-id="' . $data->id . '" class="QrCode btn btn-warning btn-sm">Download QrCode</button>';
+                        $button .= '&nbsp;&nbsp;';
+                    }
                     $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
 
                     return $button;
@@ -243,5 +246,32 @@ class VoterController extends Controller
         }
 
         return response()->json(['success' => true, 'url' => asset('pdfs/' . $filename)]);
+    }
+
+    public function relawan($id)
+    {
+        if (request()->ajax()) {
+            return datatables()->of(Voter::where('downline', request()->downline)->with(['village.district'])
+                ->where(function ($query) {
+                    if (request()->subdistrict) {
+                        $query->where('subdistrict', request()->subdistrict);
+                    }
+                    if (request()->village) {
+                        $query->where('village_id', request()->village);
+                    }
+                })
+                ->withCount('downline')
+                ->latest()->get())
+                ->addColumn('action', function ($data) {
+                    $button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button .= '&nbsp;&nbsp;';
+                    $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('admin.voters.relawan', compact('id'));
     }
 }

@@ -1,5 +1,4 @@
 @extends('theme.iori.app')
-
 @section('content')
 
 <section class="section banner-8">
@@ -65,33 +64,36 @@
                         Visi & Misi</h1>
                     <p class="font-md color-grey-400 wow animate__animated animate__fadeIn" data-wow-delay=".2s">{{
                         $data['visiMisi']['visi'] }}</p>
-                    <div class="mt-30 wow animate__animated animate__fadeIn" data-wow-delay=".4s"><a
-                            class="btn btn-white-circle font-sm-bold border-brand" href="#">DAFTAR RELAWAN</a></div>
+                    <div class="mt-30 wow animate__animated animate__fadeIn" data-wow-delay=".4s">
+                        <a class="btn btn-white-circle font-sm-bold border-brand" href="{{ route('register') }}">
+                            DAFTAR
+                            RELAWAN
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4">
-                <ul class="list-core-value list-core-value-white">
+                <ul class="list-core-value list-core-value-white" id="misi_1">
+                    @foreach ($data['visiMisi']['misi'] as $index => $misi)
+                    @if ($index % 2 != 0)
+                    {{-- key genap --}}
                     <li class="wow animate__animated animate__fadeIn" data-wow-delay=".0s"><span class="ticked"></span>
-                        <h5 class="color-brand-1 mb-5">Customers First</h5>
-                        <div class="box-border-dashed">
-                            <p class="font-md color-grey-500 mb-20">Our company exists to help merchants sell
-                                more. We make every decision and measure every outcome based on how well it
-                                serves our customers.</p>
-                        </div>
+                        <h5 class="color-brand-1 mb-5">{{ $misi }}</h5>
                     </li>
+                    @endif
+                    @endforeach
                 </ul>
             </div>
             <div class="col-lg-4">
-                <ul class="list-core-value list-core-value-white">
+                <ul class="list-core-value list-core-value-white" id="misi_2">
+                    @foreach ($data['visiMisi']['misi'] as $index => $misi)
+                    @if ($index % 2 == 0)
+                    {{-- key ganjil --}}
                     <li class="wow animate__animated animate__fadeIn" data-wow-delay=".0s"><span class="ticked"></span>
-                        <h5 class="color-brand-1 mb-5">Think Big</h5>
-                        <div class="box-border-dashed">
-                            <p class="font-md color-grey-500 mb-20">Being the world's leading commerce platform
-                                requires unrivaled vision, innovation and execution. We never settle. We
-                                challenge our ideas of what’s possible in order to better meet the needs of our
-                                customers.</p>
-                        </div>
+                        <h5 class="color-brand-1 mb-5">{{ $misi }}</h5>
                     </li>
+                    @endif
+                    @endforeach
                 </ul>
             </div>
         </div>
@@ -145,7 +147,7 @@
                 <h3 class=" wow animate__animated animate__fadeInUp" data-wow-delay=".0s">
                     {{ $data['wakilbupati']['nama'] }}
                 </h3>
-                <p class="font-md color-grey-400 wow animate__animated animate__fadeInUp text-end mb-2"
+                <p class="font-md color-grey-400 wow animate__animated animate__fadeInUp text-start mb-2"
                     data-wow-delay=".2s">
                     {{ $data['wakilbupati']['description'] }}</p>
                 <div class="mt-20 wow animate__animated animate__fadeInUp" data-wow-delay=".0s">
@@ -156,7 +158,8 @@
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M5 13l4 4L19 7"></path>
-                            </svg>{{ $buw_prestasi }}
+                            </svg>
+                            <span class="mr-2">{{ $buw_prestasi }}</span>
                         </li>
                         @endforeach
                     </ul>
@@ -165,8 +168,11 @@
             <div class="col-xl-7 col-lg-6">
                 <div class="box-images-project">
                     <div class="box-images mt-50">
-                        <img class="img-main-2 text-item-end" src="{{ asset('') }}/{{ $data['wakilbupati']['foto'] }}"
-                            alt="iori" width="60%">
+                        <div class="text-end">
+                            <!-- Menambahkan div text-end di sini -->
+                            <img class="img-main-2" src="{{ asset('') }}/{{ $data['wakilbupati']['foto'] }}" alt="iori"
+                                width="60%">
+                        </div>
                         <div class="image-2 shape-3"><img src="{{ asset('theme/iori') }}/imgs/page/homepage1/Union.png"
                                 alt="iori"></div>
                         <div class="image-3 shape-1"><img src="{{ asset('theme/iori') }}/imgs/page/homepage1/eye.png"
@@ -242,5 +248,4 @@
     </div>
 
 </section>
-
 @endsection
