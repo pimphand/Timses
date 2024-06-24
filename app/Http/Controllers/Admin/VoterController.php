@@ -35,9 +35,10 @@ class VoterController extends Controller
 
                     $button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '&nbsp;&nbsp;';
+
+                    $button .= '<a href="' . route('relawan', $data->id) . '" name="info" data-id="' . $data->id . '" class="info btn btn-info btn-sm">Info</a>';
+                    $button .= '&nbsp;&nbsp;';
                     if ($data->downline_count > 0) {
-                        $button .= '<a href="' . route('relawan', $data->id) . '" name="info" data-id="' . $data->id . '" class="info btn btn-info btn-sm">Info</a>';
-                        $button .= '&nbsp;&nbsp;';
                         $button .= '<button type="button" name="QrCode" data-id="' . $data->id . '" class="QrCode btn btn-warning btn-sm">Download QrCode</button>';
                         $button .= '&nbsp;&nbsp;';
                     }
