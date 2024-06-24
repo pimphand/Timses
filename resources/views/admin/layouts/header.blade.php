@@ -8,20 +8,20 @@
                 <!-- Logo light -->
                 <a href="{{route('dashboard')}}" class="logo-light">
                     <span class="logo-lg">
-                        <img src="{{ asset('frontend/images/logo.png') }}" alt="logo">
+                        <img src="{{asset('images')}}/frontend/logo.png?time={{ strtotime(now()) }}" alt="logo">
                     </span>
                     <span class="logo-sm">
-                        <img src="{{ asset('frontend/images/logo.png') }}" alt="small logo">
+                        <img src="{{asset('images')}}/frontend/logo.png?time={{ strtotime(now()) }}" alt="small logo">
                     </span>
                 </a>
 
                 <!-- Logo Dark -->
                 <a href="{{route('dashboard')}}" class="logo-dark">
                     <span class="logo-lg">
-                         <img src="{{ asset('frontend/images/logo.png') }}" alt="small logo">
+                        <img src="{{asset('images')}}/frontend/logo.png?time={{ strtotime(now()) }}" alt="small logo">
                     </span>
                     <span class="logo-sm">
-                          <img src="{{ asset('frontend/images/logo.png') }}" alt="small logo">
+                        <img src="{{asset('images')}}/frontend/logo.png?time={{ strtotime(now()) }}" alt="small logo">
                     </span>
                 </a>
             </div>
@@ -36,7 +36,7 @@
                 <form>
                     <div class="input-group">
                         <input type="search" class="form-control dropdown-toggle" placeholder="Search..."
-                               id="top-search">
+                            id="top-search">
                         <span class="ri-search-line search-icon"></span>
                     </div>
                 </form>
@@ -76,8 +76,8 @@
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <div class="d-flex">
                                 <img class="d-flex me-2 rounded-circle"
-                                     src="{{ asset('assets') }}/images/users/avatar-2.jpg"
-                                     alt="Generic placeholder image" height="32">
+                                    src="{{ asset('assets') }}/images/users/avatar-2.jpg"
+                                    alt="Generic placeholder image" height="32">
                                 <div class="w-100">
                                     <h5 class="m-0 fs-14">Erwin Brown</h5>
                                     <span class="fs-12 mb-0">UI Designer</span>
@@ -89,8 +89,8 @@
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <div class="d-flex">
                                 <img class="d-flex me-2 rounded-circle"
-                                     src="{{ asset('assets') }}/images/users/avatar-5.jpg"
-                                     alt="Generic placeholder image" height="32">
+                                    src="{{ asset('assets') }}/images/users/avatar-5.jpg"
+                                    alt="Generic placeholder image" height="32">
                                 <div class="w-100">
                                     <h5 class="m-0 fs-14">Jacob Deo</h5>
                                     <span class="fs-12 mb-0">Developer</span>
@@ -105,23 +105,23 @@
         <ul class="topbar-menu d-flex align-items-center gap-3">
             <li class="dropdown d-lg-none">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-haspopup="false" aria-expanded="false">
+                    aria-haspopup="false" aria-expanded="false">
                     <i class="ri-search-line fs-22"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-animated dropdown-lg p-0">
                     <form class="p-3">
                         <input type="search" class="form-control" placeholder="Search ..."
-                               aria-label="Recipient's username">
+                            aria-label="Recipient's username">
                     </form>
                 </div>
             </li>
 
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#"
-                   role="button" aria-haspopup="false" aria-expanded="false">
+                    role="button" aria-haspopup="false" aria-expanded="false">
                     <span class="account-user-avatar">
                         <img src="{{ asset('assets') }}/images/users/avatar-1.jpg" alt="user-image" width="32"
-                             class="rounded-circle">
+                            class="rounded-circle">
                     </span>
                     <span class="d-lg-flex flex-column gap-1 d-none">
                         <h5 class="my-0">{{auth()->user()->name}}</h5>
