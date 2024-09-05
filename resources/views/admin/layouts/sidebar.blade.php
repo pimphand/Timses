@@ -14,7 +14,7 @@
     <!-- Brand Logo Dark -->
     <a href="{{route('dashboard')}}" class="logo logo-dark">
         <span class="logo-lg">
-            <img src="{{asset('images')}}/frontend/logo.png?time={{ strtotime(now()) }}" alt="dark logo">
+            <img src="{{asset('images')}}/frontend/logo.png?time={{ strtotime(now()) }}" width="200px" alt="dark logo">
         </span>
         <span class="logo-sm">
             <img src="{{asset('images')}}/frontend/logo.png?time={{ strtotime(now()) }}" alt="small logo">
