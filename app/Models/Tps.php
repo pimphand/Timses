@@ -15,6 +15,7 @@ class Tps extends Model
 
     protected $guarded = [];
 
+    protected $with = ['district', 'village'];
     public function district()
     {
         return $this->belongsTo(District::class, 'district_id', 'id');
@@ -23,5 +24,10 @@ class Tps extends Model
     public function village()
     {
         return $this->belongsTo(Village::class, 'village_id', 'id');
+    }
+
+    public function dataRecaps()
+    {
+        return $this->hasOne(DataRecap::class, 'tps_id', 'id');
     }
 }

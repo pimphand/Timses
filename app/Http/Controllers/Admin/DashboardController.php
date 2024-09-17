@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DataRecap;
 use App\Models\User;
 use App\Models\Voter;
 use Illuminate\Http\Request;
@@ -98,12 +99,17 @@ class DashboardController extends Controller
         ];
     }
 
+    public function realCount(Request $request)
+    {
+        return view('admin.real_count');
+    }
+
     public function quickCount(Request $request)
     {
         return view('admin.quick_count');
     }
 
-    public function quickCountData(Request $request)
+    public function realCountData(Request $request)
     {
         if ($request->getKota) {
             $data = DB::table('data_recaps')
@@ -118,7 +124,7 @@ class DashboardController extends Controller
 
             foreach ($data as $row) {
                 $series[] = (int) $row->total_vote;
-                $labels[] = $row->candidate_name.($row->vice_name ? ' & '.$row->vice_name : '');
+                $labels[] = $row->candidate_name . ($row->vice_name ? ' & ' . $row->vice_name : '');
             }
 
             return response()->json([
@@ -137,7 +143,7 @@ class DashboardController extends Controller
                         ->whereColumn('indonesia_districts.id', 'data_recaps.district')
                         ->where('indonesia_districts.id', $request->getKecamatan);
                 })
-                ->select('candidates.name as candidate_name', 'candidates.vice_name as vice_name', \DB::raw('SUM(detail_data_recaps.vote) as total_vote'))
+                ->select('candidates.name as candidate_name', 'candidates.vice_name as vice_name', DB::raw('SUM(detail_data_recaps.vote) as total_vote'))
                 ->groupBy('candidates.name', 'candidates.vice_name')
                 ->get();
             $series_kecamatan = [];
@@ -145,7 +151,7 @@ class DashboardController extends Controller
 
             foreach ($kecamatans as $kecamatan) {
                 $series_kecamatan[] = (int) $kecamatan->total_vote;
-                $labels_kecamatan[] = $kecamatan->candidate_name.($kecamatan->vice_name ? ' & '.$kecamatan->vice_name : '');
+                $labels_kecamatan[] = $kecamatan->candidate_name . ($kecamatan->vice_name ? ' & ' . $kecamatan->vice_name : '');
             }
 
             return response()->json([
@@ -166,7 +172,7 @@ class DashboardController extends Controller
                         ->whereColumn('indonesia_villages.id', 'data_recaps.village')
                         ->where('indonesia_villages.id', $request->getKelurahan);
                 })
-                ->select('candidates.name as candidate_name', 'candidates.vice_name as vice_name', \DB::raw('SUM(detail_data_recaps.vote) as total_vote'))
+                ->select('candidates.name as candidate_name', 'candidates.vice_name as vice_name', DB::raw('SUM(detail_data_recaps.vote) as total_vote'))
                 ->groupBy('candidates.name', 'candidates.vice_name')
                 ->get();
 
@@ -175,7 +181,7 @@ class DashboardController extends Controller
 
             foreach ($kelurahans as $kelurahan) {
                 $series_kelurahann[] = (int) $kelurahan->total_vote;
-                $labels_kelurahann[] = $kelurahan->candidate_name.($kelurahan->vice_name ? ' & '.$kelurahan->vice_name : '');
+                $labels_kelurahann[] = $kelurahan->candidate_name . ($kelurahan->vice_name ? ' & ' . $kelurahan->vice_name : '');
             }
 
             return response()->json([
@@ -187,5 +193,50 @@ class DashboardController extends Controller
         }
 
         return false;
+    }
+
+    public function quickCountData(Request $request)
+    {
+        $subQuery = DataRecap::where('district', $request->getKecamatan)
+            ->select(
+                'data_recaps.id',  // Pastikan untuk menentukan tabel dari mana id berasal
+                DB::raw('ROW_NUMBER() OVER (PARTITION BY village, district ORDER BY created_at DESC) as row_num')
+            )
+            ->from('data_recaps');
+
+        $result = DB::table(DB::raw("({$subQuery->toSql()}) as subquery"))
+            ->mergeBindings($subQuery->getQuery())
+            ->where('row_num', '<=', 2)
+            ->take(1067)
+            ->get()
+            ->pluck('id');
+
+        $kecamatans = DB::table('data_recaps')
+            ->whereIn('data_recaps.id', $result) // Pastikan untuk spesifik tabelnya
+            ->join('detail_data_recaps', 'data_recaps.id', '=', 'detail_data_recaps.data_recap_id')
+            ->join('candidates', 'detail_data_recaps.candidate_id', '=', 'candidates.id')
+            ->whereExists(function ($subQuery) use ($request) {
+                $subQuery->from('indonesia_districts')
+                    ->whereColumn('indonesia_districts.id', 'data_recaps.district');
+            })
+            ->select('candidates.name as candidate_name', 'candidates.vice_name as vice_name', DB::raw('SUM(detail_data_recaps.vote) as total_vote'))
+            ->groupBy('candidates.name', 'candidates.vice_name')
+            ->get();
+
+        $series_kecamatan = [];
+        $labels_kecamatan = [];
+
+        foreach ($kecamatans as $kecamatan) {
+            $series_kecamatan[] = (int) $kecamatan->total_vote;
+            $labels_kecamatan[] = $kecamatan->candidate_name . ($kecamatan->vice_name ? ' & ' . $kecamatan->vice_name : '');
+        }
+
+        return response()->json([
+            'data' => [
+                'series' => $series_kecamatan,
+                'labels' => $labels_kecamatan,
+            ],
+            'data_kecamatan' => $kecamatans->count(),
+        ]);
     }
 }

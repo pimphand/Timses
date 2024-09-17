@@ -19,11 +19,11 @@ class WitnessController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return datatables()->of(User::with(['tps'])->where('role', 'saksi')->latest()->get())
+            return datatables()->of(User::with(['tps.village.district'])->where('role', 'saksi')->latest()->get())
                 ->addColumn('action', function ($data) {
-                    $button = '<button type="button" name="edit" data-id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button = '<button type="button" name="edit" data-id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" name="delete" data-id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+                    $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
 
                     return $button;
                 })
@@ -97,8 +97,8 @@ class WitnessController extends Controller
         $validated = Validator::make($request->all(), [
             'name' => 'required',
             'phone' => 'required|numeric|digits_between:10,13',
-            'email' => 'required|email|unique:users,email,'.$user->id,
-            'username' => 'required|unique:users,username,'.$user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'username' => 'required|unique:users,username,' . $user->id,
         ]);
 
         if ($validated->fails()) {
@@ -133,7 +133,11 @@ class WitnessController extends Controller
      */
     public function generateWitness(Request $request)
     {
-        $tps = Tps::where('district_id', $request->district_id)->get();
+        $tps = Tps::select('id', 'name')->where('district_id', $request->district_id)->get();
+
+        if ($tps->count() == 0) {
+            return response()->json(['message' => 'No TPS found'], 404);
+        }
         $users = [];
         $counter = 0; // Initialize counter variable
 
@@ -142,10 +146,10 @@ class WitnessController extends Controller
             $users[] = User::firstOrCreate([
                 'tps_id' => $tp->id,
             ], [
-                'name' => 'Saksi '.$tp->name,
-                'email' => rand(1000, 10000).'saksi_'.Str::replace(' ', '_', $tp->name).'@gmail.com', // change this to your email domain (optional)
+                'name' => 'Saksi ' . $tp->name,
+                'email' => rand(1000, 10000) . 'saksi_' . Str::replace(' ', '_', $tp->name) . '@gmail.com', // change this to your email domain (optional)
                 'password' => bcrypt($token),
-                'username' => Str::random(5).rand(1, 1000),
+                'username' => Str::random(5) . rand(1, 1000),
                 'role' => 'saksi',
                 'phone' => null,
                 'token' => $token,

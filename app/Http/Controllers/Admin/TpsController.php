@@ -18,15 +18,15 @@ class TpsController extends Controller
     {
         if (request()->ajax()) {
             if (request()->has('show')) {
-                return District::where('indonesia_districts.city_code', 3202)->withCount('tps')->get();
-
+                return District::where('indonesia_districts.city_code', 3202)->with('tps')->withCount('tps')->get();
             }
             if (request()->has('datatable')) {
-                return datatables()->of(Tps::where('district_id', request()->district)->with(['district', 'village'])->latest()->get())
+
+                return datatables()->of(Tps::where('district_id', request()->district)->with(['district', 'village', 'district.city'])->latest()->get())
                     ->addColumn('action', function ($data) {
-                        $button = '<button type="button" name="edit" data-id="'.$data->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                        $button = '<button type="button" name="edit" data-id="' . $data->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                         $button .= '&nbsp;&nbsp;';
-                        $button .= '<button type="button" name="delete" data-id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+                        $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
 
                         return $button;
                     })
@@ -60,7 +60,7 @@ class TpsController extends Controller
         if ($request->total) {
             for ($i = 0; $i <= $request->total; $i++) {
                 Tps::create([
-                    'name' => 'TPS '.$i,
+                    'name' => 'TPS ' . $i,
                     'village_id' => $request->village_id,
                     'district_id' => $village->district->id,
                 ]);
@@ -126,6 +126,11 @@ class TpsController extends Controller
 
     public function data(Request $request)
     {
-        return Tps::where('district_id', $request->district_id)->where('village_id', $request->village_id)->orderBy('created_at', 'asc')->get();
+        return Tps::where('district_id', $request->district_id)
+            ->where('village_id', $request->village_id)
+            ->when($request->notnull == '1', function ($query) {
+                return $query->whereHas('dataRecaps');
+            })
+            ->orderBy('created_at', 'asc')->get();
     }
 }

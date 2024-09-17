@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::view('login', 'auth.login');
 
 Route::get('province', [\App\Http\Controllers\IndonesianTerritoryController::class, 'province'])->name('get.province');
@@ -26,6 +26,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard/data', [\App\Http\Controllers\Admin\DashboardController::class, 'data'])->name('dashboard.data');
 
+    Route::get('/real-count', [\App\Http\Controllers\Admin\DashboardController::class, 'realCount'])->name('realCount');
+    Route::get('/real-count/data', [\App\Http\Controllers\Admin\DashboardController::class, 'realCountData'])->name('realCount.data');
     Route::get('/quick-count', [\App\Http\Controllers\Admin\DashboardController::class, 'quickCount'])->name('quickCount');
     Route::get('/quick-count/data', [\App\Http\Controllers\Admin\DashboardController::class, 'quickCountData'])->name('quickCount.data');
 
@@ -52,3 +54,5 @@ Route::get('/semua-berita', [\App\Http\Controllers\FrontendController::class, 'n
 Route::get('/detail-berita/{slug}', [\App\Http\Controllers\FrontendController::class, 'detail'])->name('news-detail');
 Route::get('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'register']);
 Route::post('/daftar-relawan', [\App\Http\Controllers\FrontendController::class, 'storeRegister'])->name('register');
+
+Route::view('/data-asd', 'admin.data')->name('about');
